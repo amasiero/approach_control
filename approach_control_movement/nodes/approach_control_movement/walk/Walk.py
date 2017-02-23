@@ -9,7 +9,7 @@ from geometry_msgs.msg import Twist
 
 class Walk(smach.State):
 	def __init__(self, linear=0.0, angular=0.0):
-		smach.State.__init__(self, outcomes=['walking'])
+		smach.State.__init__(self, outcomes=['walking', 'stopping'])
 		self.motor_state_pub = rospy.Publisher('/cmd_motor_state', MotorState, queue_size=10)
 		self.cmd_vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 
@@ -25,6 +25,9 @@ class Walk(smach.State):
 		motor_state = MotorState()
 		motor_state.state = 4
 		self.motor_state_pub.publish(motor_state)
+
+		if (self.linear == 0.0 and self.angular == 0.0):
+			return 'stopping'
 
 		velocity.linear.x = self.linear
 		velocity.angular.z = self.angular

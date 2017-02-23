@@ -6,8 +6,32 @@ import smach
 import smach_ros
 import time
 
-def main():
-	rospy.init_node('approach_control_walk_sm')
+import approach_control_movement as movement
+import approach_control_sensors as sensors
+
+def setup_sm():
+
+	sm = smach.StateMachine(outcomes=['Done'])
+
+	with sm:
+
+		smach.StateMachine.add('WALK', movement.Walk(0.2),
+								transitions={'walking' : 'CHECK_DISTANCE', 'stopping' : 'STOP'})
+	
+		smach.StateMachine.add('CHECK_DISTANCE', sensors.Laser(),
+								transitions={'closerFront' : 'STOP', 'closerRight' : 'STOP', 'closerLeft' : 'STOP', 'far' : 'CHECK_DISTANCE'})
+
+		smach.StateMachine.add('STOP', movement.Walk(),
+								transitions={'walking' : 'Done', 'stopping' : 'Done'})
+
+	sis = smach_ros.IntrospectionServer('Judith_StateMachineServer', sm, '/SM_JUDITH')
+	sis.start()
+
+	outcome = sm.execute()
+
+	rospy.spin()
+	sis.stop()
 
 if __name__ == '__main__':
-	main()
+	rospy.init_node('test_sm_robot_walking')
+	setup_sm()
