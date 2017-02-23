@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>approach_control_walk</name>
+  <name>approach_control_movement</name>
   <version>0.0.0</version>
-  <description>The approach_control_walk package contains all robot walk states</description>
+  <description>The approach_control_movement package contains all robot moves states</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
