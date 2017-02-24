@@ -26,12 +26,12 @@ class Walk(smach.State):
 		motor_state.state = 4
 		self.motor_state_pub.publish(motor_state)
 
-		if (self.linear == 0.0 and self.angular == 0.0):
-			return 'stopping'
-
 		velocity.linear.x = self.linear
 		velocity.angular.z = self.angular
 		self.cmd_vel_pub.publish(velocity)
 		
+		if (self.linear == 0.0 and self.angular == 0.0):
+			return 'stopping'
+
 		return 'walking'
 		
