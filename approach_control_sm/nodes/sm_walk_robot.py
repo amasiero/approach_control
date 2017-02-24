@@ -6,8 +6,8 @@ import smach
 import smach_ros
 import time
 
-import approach_control_movement as movement
-import approach_control_sensors as sensors
+from approach_control_movement.walk import Walk
+from approach_control_sensors import Laser
 
 def setup_sm():
 
@@ -15,13 +15,13 @@ def setup_sm():
 
 	with sm:
 
-		smach.StateMachine.add('WALK', movement.Walk(0.2),
+		smach.StateMachine.add('WALK', Walk.Walk(0.2),
 								transitions={'walking' : 'CHECK_DISTANCE', 'stopping' : 'STOP'})
 	
-		smach.StateMachine.add('CHECK_DISTANCE', sensors.Laser(),
+		smach.StateMachine.add('CHECK_DISTANCE', Laser.Laser(),
 								transitions={'closerFront' : 'STOP', 'closerRight' : 'STOP', 'closerLeft' : 'STOP', 'far' : 'CHECK_DISTANCE'})
 
-		smach.StateMachine.add('STOP', movement.Walk(),
+		smach.StateMachine.add('STOP', Walk.Walk(),
 								transitions={'walking' : 'Done', 'stopping' : 'Done'})
 
 	sis = smach_ros.IntrospectionServer('Judith_StateMachineServer', sm, '/SM_JUDITH')
