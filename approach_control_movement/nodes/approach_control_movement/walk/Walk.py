@@ -33,5 +33,4 @@ class Walk(smach.State):
 		if (self.linear == 0.0 and self.angular == 0.0):
 			return 'stopping'
 
-		return 'walking'
-		
+		return 'walking'		
