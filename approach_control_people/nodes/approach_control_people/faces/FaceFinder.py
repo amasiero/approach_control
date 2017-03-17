@@ -11,17 +11,15 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 
 
-class FaceFinder(smach.state):
+class FaceFinder(smach.State):
 
-	def __init__(self, outcomes=['one_face', 'faces', 'in_progress', 'fail']):
-
-		smach.State.__init__(self, outcomes=['success','sucess2','in_progress','fail'])
-		rospy.Subscriber('/image_raw',Image,self.image_callback)
+	def __init__(self):
+		smach.State.__init__(self, outcomes=['one_face', 'faces', 'searching', 'fail'])
+		rospy.Subscriber('/image_raw', Image, self.callback)
 		self.bridge = CvBridge()
 		self.face_cascade = cv2.CascadeClassifier('/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_default.xml')
 		self.faces_found = None
-		self.count = 0
-
+	
 	def callback(self,data):
 		try:
 			image = self.bridge.imgmsg_to_cv2(data, 'bgr8')
@@ -53,13 +51,12 @@ class FaceFinder(smach.state):
 		self.faces_found = len(faces)
 
 	def execute(self,userdata):
-		time.sleep(1)
+		rospy.sleep(1)
 		if self.faces_found == 1:
 			return 'one_face'
 		elif self.faces_found > 1:
 			return 'faces'
-		elif self.faces_found == 0 and self.count < 1:
-			return 'in_progress'
-			self.count +=1
-		elif self.faces_found == 0 and self.count == 1:
+		elif self.faces_found == 0:
+			return 'searching'
+		else:
 			return 'fail'
