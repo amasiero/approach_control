@@ -22,7 +22,7 @@ class PersonFaceCapture(smach.State):
 		self.capture = 0
 		#self.faces_db_dir = rospy.get_param('~face_database_path')
 		self.face_cascade = cv2.CascadeClassifier('/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_default.xml')
-		self.tmp_dir = '~/faces/tmp'
+		self.tmp_dir = '/home/judith/faces/tmp'
 		self.image_saved = False
 		self.bridge = CvBridge()
 
