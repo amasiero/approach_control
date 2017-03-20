@@ -23,7 +23,7 @@ class PersonFaceCapture(smach.State):
 		self.face_cascade = cv2.CascadeClassifier('/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_default.xml')
 		self.tmp_dir = '~/faces/tmp'
 		self.image_saved = False
-		self.count = 0
+		self.bridge = CvBridge()
 
 	def callback(self,data):
 
