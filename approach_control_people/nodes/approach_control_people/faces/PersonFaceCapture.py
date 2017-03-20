@@ -42,8 +42,8 @@ class PersonFaceCapture(smach.State):
 
 		if self.capture < 25:
 
-		    self.capture_operator = self.capture_operator + 1
-		    print str(self.capture_operator)
+		    self.capture = self.capture + 1
+		    print str(self.capture)
 		    for (x, y, w, h) in faces:
 		        x1 = x + int(w * .1)
 		        x2 = x1 + int(w * .8)
@@ -63,8 +63,8 @@ class PersonFaceCapture(smach.State):
 		                utils.resize_image_opencv_128x128(roi_gray)
 		            )
 		else:
-			utils.save_image_opencv(self.tmp_dir, 'operator.png', fu.grey_image_mean(self.tmp_dir))
-			# utils.save_image_opencv(self.faces_db_dir, 'operator.png', fu.grey_image_mean(self.tmp_dir))
+			utils.save_image_opencv(self.tmp_dir, 'operator.png', utils.grey_image_mean(self.tmp_dir))
+			# utils.save_image_opencv(self.faces_db_dir, 'operator.png', utils.grey_image_mean(self.tmp_dir))
 			self.image_saved = True
 
 	def execute(self,userdata):
