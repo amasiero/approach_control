@@ -13,25 +13,19 @@ from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 
-class PersonFaceCapture(Smach.State):
+class PersonFaceCapture(smach.State):
 
-	def __init__(self, outcomes['success','in_progress','fail']):
+	def __init__(self):
 		smach.State.__init__(self, outcomes=['success','in_progress','fail'])
-		rospy.Subscriber('/image_raw', Image, callback)
-		self.speech_pub = rospy.Publisher("/speech", String, queue_size=10)
+		rospy.Subscriber('/image_raw', Image, self.callback)
 		self.capture = 0
 		self.faces_db_dir = rospy.get_param('~face_database_path')
 		self.face_cascade = cv2.CascadeClassifier('/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_default.xml')
 		self.tmp_dir = '~/faces/tmp'
-		self.greeting = True
 		self.image_saved = False
 		self.count = 0
 
 	def callback(self,data):
-
-		if self.greeting:
-			self.speech_pub('Please stay one meter distance, so I can record your face')
-			self.greeting = False
 
 		try:
 		    image = self.bridge.imgmsg_to_cv2(data, 'bgr8')
