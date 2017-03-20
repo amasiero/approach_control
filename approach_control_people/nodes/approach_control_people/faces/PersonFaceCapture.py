@@ -12,6 +12,7 @@ import time
 from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
+from approach_control_people.faces import Utils
 
 class PersonFaceCapture(smach.State):
 
@@ -35,7 +36,7 @@ class PersonFaceCapture(smach.State):
 		gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 		roi_gray = None
-		utils = Utils()
+		utils = Utils.Utils()
 
 		faces = utils.detect_faces(gray)
 

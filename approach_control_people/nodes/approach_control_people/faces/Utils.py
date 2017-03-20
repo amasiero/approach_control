@@ -6,7 +6,7 @@
 
 import cv2
 import numpy as np
-import matplolib.pyplot as plt
+import matplotlib.pyplot as plt
 
 from os import listdir
 from os.path import exists
@@ -18,7 +18,7 @@ class Utils(object):
 	def __init__(self):
 		self.face_cascade = cv2.CascadeClassifier('/usr/local/share/OpenCV/haarcascade_frontalface_default.xml')
 
-	def load_grey_image_skimage(self, file);
+	def load_grey_image_skimage(self, file):
 		return io.imread(file, as_grey=True)
 
 	def load_grey_image_opencv(self, file):
