@@ -19,7 +19,7 @@ class PersonFaceCapture(smach.State):
 		smach.State.__init__(self, outcomes=['success','in_progress','fail'])
 		rospy.Subscriber('/image_raw', Image, self.callback)
 		self.capture = 0
-		self.faces_db_dir = rospy.get_param('~face_database_path')
+		#self.faces_db_dir = rospy.get_param('~face_database_path')
 		self.face_cascade = cv2.CascadeClassifier('/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_default.xml')
 		self.tmp_dir = '~/faces/tmp'
 		self.image_saved = False
@@ -35,15 +35,9 @@ class PersonFaceCapture(smach.State):
 		gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 		roi_gray = None
-		fu = FaceUtils()
+		utils = Utils()
 
-		faces = self.face_cascade.detectMultiScale(
-		    gray,
-		    scaleFactor=1.1,
-		    minNeighbors=10,
-		    minSize=(100, 100),
-		    flags=cv2.cv.CV_HAAR_SCALE_IMAGE
-		)
+		faces = utils.detect_faces(gray)
 
 		if self.capture < 25:
 
@@ -62,23 +56,22 @@ class PersonFaceCapture(smach.State):
 		        if roi_gray is not None:
 		            face_numbers = len(os.listdir(self.tmp_dir))
 		            file_name = '{0}.png'.format(face_numbers)
-		            fu.save_image_opencv(
+		            utils.save_image_opencv(
 		                self.tmp_dir,
 		                file_name,
-		                fu.resize_image_opencv_128x128(roi_gray)
+		                utils.resize_image_opencv_128x128(roi_gray)
 		            )
 		else:
-			self.speech_pub.publish('You can move to the crowd now.')
-			fu.save_image_opencv(self.faces_db_dir, 'operator.png', fu.grey_image_mean(self.tmp_dir))
-			self.imae_saved = True
+			utils.save_image_opencv(self.tmp_dir, 'operator.png', fu.grey_image_mean(self.tmp_dir))
+			# utils.save_image_opencv(self.faces_db_dir, 'operator.png', fu.grey_image_mean(self.tmp_dir))
+			self.image_saved = True
 
 	def execute(self,userdata):
 
 		time.sleep(5)
 		if self.image_saved:
 			return 'success'
-		elif self.count < 1:
+		elif self.capture < 25:
 			return 'in_progress'
-			count += 1
 		else:
 			return 'fail'
