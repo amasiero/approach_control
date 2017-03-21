@@ -44,10 +44,11 @@ class Utils(object):
 		cv2.imwrite(path + filename, image)
 
 	def detect_faces(self, image):
-		return self.face_cascade.detectMultiScale(
+		faces = self.face_cascade.detectMultiScale(
 			image,
 			scaleFactor = 1.1,
 			minNeighbors = 10,
 			minSize = (100, 100),
 			flags = cv2.cv.CV_HAAR_SCALE_IMAGE
 		)
+		return faces

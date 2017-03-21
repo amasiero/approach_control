@@ -15,7 +15,6 @@ class FaceFinder(smach.State):
 
 	def __init__(self):
 		smach.State.__init__(self, outcomes=['one_face', 'faces', 'searching', 'fail'])
-		rospy.Subscriber('/image_raw', Image, self.callback)
 		self.bridge = CvBridge()
 		self.face_cascade = cv2.CascadeClassifier('/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_default.xml')
 		self.faces_found = None
@@ -47,10 +46,11 @@ class FaceFinder(smach.State):
 			cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
 		
 		cv2.imshow('Face Detection', image)
-		cv2.waitKey(1)
+		
 		self.faces_found = len(faces)
 
 	def execute(self,userdata):
+		rospy.Subscriber('/image_raw', Image, self.callback)
 		rospy.sleep(1)
 		if self.faces_found == 1:
 			return 'one_face'
