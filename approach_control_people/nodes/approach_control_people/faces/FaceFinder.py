@@ -45,7 +45,7 @@ class FaceFinder(smach.State):
 			roi_gray = gray[y1:y2, x1:x2]
 			cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
 		
-		cv2.imshow('Face Detection', image)
+		#cv2.imshow('Face Detection', image)
 		
 		self.faces_found = len(faces)
 

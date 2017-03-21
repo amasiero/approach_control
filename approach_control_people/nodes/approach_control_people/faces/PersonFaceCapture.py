@@ -21,7 +21,7 @@ class PersonFaceCapture(smach.State):
 		self.capture = 0
 		#self.faces_db_dir = rospy.get_param('~face_database_path')
 		self.face_cascade = cv2.CascadeClassifier('/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_default.xml')
-		self.tmp_dir = '/home/judith/faces/tmp/' #verificar como pegar o diretório a partir do home com o comando ~
+		self.tmp_dir = '/home/judith/faces/tmp/' #verificar como pegar o diretorio a partir do home com o comando ~
 		self.image_saved = False
 		self.bridge = CvBridge()
 
@@ -76,7 +76,7 @@ class PersonFaceCapture(smach.State):
 
 	def execute(self,userdata):
 		rospy.Subscriber('/image_raw', Image, self.callback)
-		time.sleep(5)
+		rospy.sleep(5)
 		if self.image_saved:
 			return 'success'
 		elif self.capture < 25:
