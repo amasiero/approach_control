@@ -45,3 +45,10 @@ qtcreator-*
 
 # Catkin custom files
 CATKIN_IGNORE
+
+
+# database tmp ignore
+database/faces/tmp/*
+
+# database tmp keeps
+!database/faces/tmp/.gitkeep

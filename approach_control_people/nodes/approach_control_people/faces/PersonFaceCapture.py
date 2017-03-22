@@ -3,6 +3,7 @@
 import rospy
 import smach
 import os
+import os.path
 from smach import state
 import smach_ros
 import cv2
@@ -21,7 +22,7 @@ class PersonFaceCapture(smach.State):
 		self.capture = 0
 		#self.faces_db_dir = rospy.get_param('~face_database_path')
 		self.face_cascade = cv2.CascadeClassifier('/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_default.xml')
-		self.tmp_dir = '/home/judith/faces/tmp/' #verificar como pegar o diretorio a partir do home com o comando ~
+		self.tmp_dir = os.path.abspath('catkin_ws/src/approach_control/database/faces/tmp/') #verificar como pegar o diretorio a partir do home com o comando ~
 		self.image_saved = False
 		self.bridge = CvBridge()
 
@@ -70,7 +71,7 @@ class PersonFaceCapture(smach.State):
 		            )
 		            self.capture = self.capture + 1
 		else:
-			utils.save_image_opencv(self.tmp_dir, 'operator.png', utils.grey_image_mean(self.tmp_dir))
+			utils.save_image_opencv(os.path.abspath('catkin_ws/src/approach_control/database/faces/'), 'operator.png', utils.grey_image_mean(self.tmp_dir))
 			# utils.save_image_opencv(self.faces_db_dir, 'operator.png', utils.grey_image_mean(self.tmp_dir))
 			self.image_saved = True
 
