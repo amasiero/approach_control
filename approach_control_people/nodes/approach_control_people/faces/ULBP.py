@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from behavior_robot.models import *
+from approach_control_people.faces import *
 import numpy as np
 
 class ULBP:
