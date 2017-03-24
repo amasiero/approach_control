@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from approach_control_people.Region import Region
+from approach_control_people.faces.Region import Region
 
 class Map:
 

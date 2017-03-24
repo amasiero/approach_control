@@ -9,7 +9,9 @@ import rospy
 from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
-from approach_control_people.faces import *
+from approach_control_people.faces.Map import Map
+from approach_control_people.faces.ULBP import ULBP
+from approach_control_people.faces.lbp_utils import W, Authentify
 from approach_control_people.faces.load_database import load_female_db as female_db
 from approach_control_people.faces.load_database import load_male_db as male_db
 
@@ -24,13 +26,13 @@ class GenderDiscover(smach.State):
 		self.GRID = 16
 		self.SIZE = 128
 
-		self.m = Map.Map('Regions')
+		self.m = Map('Regions')
 		self.m.MakeRegularCluster(self.SIZE, self.SIZE, self.GRID, self.GRID)
 		self.m.MakeRegions()
 
-		self.ulbp_face = ULBP.ULBP(m)
-		self.ulbp_female = ULBP.ULBP(m)
-		self.ulbp_male = ULBP.ULBP(m)
+		self.ulbp_face = ULBP(self.m)
+		self.ulbp_female = ULBP(self.m)
+		self.ulbp_male = ULBP(self.m)
 
 		self.ulbp_male.MakePattern(male_db())
 		self.ulbp_male.MakeHistogram()
@@ -45,7 +47,7 @@ class GenderDiscover(smach.State):
 		self.ulbp_face.MakePattern(img)
 		self.ulbp_face.MakeHistogram()
 
-		return Authentify.Authentify(ulbp_face.histogram, ulbp_female.histogram, ulbp_male.histogram, lbp_utils.W) > 20.0
+		return Authentify(ulbp_face.histogram, ulbp_female.histogram, ulbp_male.histogram, W) > 20.0
 
 	def callback(self, data):
 
