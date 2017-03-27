@@ -49,6 +49,7 @@ CATKIN_IGNORE
 
 # database tmp ignore
 database/faces/tmp/*
+database/faces/operator.png
 
 # database tmp keeps
 !database/faces/tmp/.gitkeep

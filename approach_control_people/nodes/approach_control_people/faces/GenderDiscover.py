@@ -47,7 +47,7 @@ class GenderDiscover(smach.State):
 		self.ulbp_face.MakePattern(img)
 		self.ulbp_face.MakeHistogram()
 
-		return Authentify(ulbp_face.histogram, ulbp_female.histogram, ulbp_male.histogram, W) > 20.0
+		return Authentify(self.ulbp_face.histogram, self.ulbp_female.histogram, self.ulbp_male.histogram, W) > 20.0
 
 	def callback(self, data):
 
@@ -60,7 +60,7 @@ class GenderDiscover(smach.State):
 
 		roi_gray = None
 		
-		faces = self.face_cascade.detectMultScale(
+		faces = self.face_cascade.detectMultiScale(
 			gray,
 			scaleFactor = 1.1,
 			minNeighbors = 10,
@@ -78,7 +78,7 @@ class GenderDiscover(smach.State):
 			roi_gray = cv2.resize(gray[y1:y2, x1:x2], (128, 128))
 
 			self.gender = 'man'
-			if is_woman(roi_gray):
+			if self.is_woman(roi_gray):
 				self.gender = 'woman'
 
 
@@ -86,6 +86,6 @@ class GenderDiscover(smach.State):
 		rospy.Subscriber('/image_raw', Image, self.callback)
 		rospy.sleep(5)
 		if self.gender is not None:
-			return gender
+			return self.gender
 		else:
 			return 'fail'

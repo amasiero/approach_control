@@ -35,7 +35,7 @@ class Utils(object):
 		return cv2.resize(image, (128, 128))
 
 	def grey_image_mean(self, path):
-		return np.mean([self.load_grey_image_skimage(path + file) for file in listdir(path)], 0)
+		return np.mean([self.load_grey_image_skimage(path + file) for file in listdir(path) if '.png' in file], 0)
 
 	def save_grey_image_skimage(self, path, filename, image):
 		plt.imsave(path + filename, image, cmap=plt.cm.gray)
