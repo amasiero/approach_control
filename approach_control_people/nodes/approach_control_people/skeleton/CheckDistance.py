@@ -13,12 +13,14 @@ class CheckDistance(smach.State):
 		self.distance = None
 		
 		# Preparing to start openni_tracker node
-		self.package = 'openni_tracker'
-		self.executable = 'openni_tracker'
-		self.node = roslaunch.core.Node(self.package, self.executable)
-		self.launch = roslaunch.scriptapi.ROSLaunch()
-		self.launch.start()
-		self.process = launch.launch(node)
+		package = 'openni_tracker'
+		executable = 'openni_tracker'
+		node_tracker = roslaunch.core.Node(package, executable)
+		node_distance = roslaunch.core.Node('approach_control_people', 'pub_distance.py')
+		launch = roslaunch.scriptapi.ROSLaunch()
+		launch.start()
+		self.process_tracker = launch.launch(node_tracker)
+		self.process_distance = launch.launch(node_distance)
 
 	def callback(self, ndistance):
 		if ndistance.data < 1.1:
@@ -30,14 +32,14 @@ class CheckDistance(smach.State):
 
 
 	def execute(self, userdata):
-		if self.process.is_alive():
+		if self.process_tracker.is_alive():
 		 	rospy.Subscriber('/torso_distance', Float64, self.callback)
 		 	rospy.sleep(5)
 		 	if self.distance is not None:
-		 		self.process.stop()
+		 		self.process_tracker.stop()
 		 		return self.distance
 		 	else:
-		 		self.process.stop()
+		 		self.process_tracker.stop()
 		 		return 'fail'
 		else:
 			return 'not_ready'
