@@ -1,3 +1,4 @@
 [submodule "dragonfly_speech_recognition"]
 	path = dragonfly_speech_recognition
 	url = https://github.com/tue-robotics/dragonfly_speech_recognition
+	ignore = dirty
