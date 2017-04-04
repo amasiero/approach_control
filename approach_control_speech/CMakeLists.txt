@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(approach_control_voice)
+project(approach_control_speech)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
