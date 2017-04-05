@@ -16,8 +16,6 @@ class Default(smach.State):
 		userdata.coordY = 200
 		userdata.coordZ = 0
 
-		if True:
-			rospy.loginfo('Position changed')
-			return 'success'
-		else:
-			return 'fail'
+		rospy.loginfo('Position changed')
+		return 'success'
+		
