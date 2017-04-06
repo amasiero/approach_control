@@ -7,6 +7,7 @@ import numpy as np
 from std_msgs.msg import Float64
 from dynamixel_msgs.msg import JointState
 from dynamixel_controllers.srv import SetSpeed
+from approach_control_manipulator.utils.arm_mod import Arm3Link
 
 class GoTo(smach.State):
 
@@ -73,3 +74,18 @@ class GoTo(smach.State):
 		self.angles_now[0] = np.round(self.current_pose_joint1 - (1.98), 2)
 		self.angles_now[1] = np.round(self.current_pose_joint2 + (0.41), 2)
 		self.angles_now[2] = np.round(self.current_pose_joint3 + (0.46), 2)
+
+		# Create an Arm3Link
+		arm = Arm3Link(q0 = self.angle, L = np.array([130,133,225]))
+		arm.q = arm.inv_kin(xyz = [userdata.coordX, userdata.coordY, userdata.coordZ])
+
+		if not math.isnan(arm.q[0]):
+
+			# Transformations to interactions with dinamyxels servos
+			q1 = np.round(arm.q[0] - (1.92), 2)
+			q2 = np.round(arm.q[1] + (0.41), 2)
+			q3 = np.round(arm.q[2] + (0.46), 2)
+			q4 = np.round(arm.q[3] - (0.71), 2)
+			self.q_list = [q1, q2, q3]
+
+			# Vector with joint difference angles
