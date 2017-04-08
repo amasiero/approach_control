@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+        <node name="map_server" pkg="map_server" type="map_server" args="$(find judith_launch)/maps/map.yaml" respawn="false" >
+        </node>
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find judith_launch)/config/map_load.rviz" respawn="true">
+        </node>
+        <node name="getlocals" pkg="judith_nav" type="getlocals.py" respawn="true" output="screen">
+        </node>
+</launch>

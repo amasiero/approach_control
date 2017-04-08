@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Start tilt joint controller -->
+    <rosparam file="$(find judith_launch)/config/servos.yaml" command="load"/>
+    <node name="tilt_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
+          args="--manager=dxl_manager
+                --port pan_tilt_port
+                tilt_controller
+                tilt2_controller
+                tilt3_controller
+                tilt4_controller
+                tilt5_controller
+                tilt6_controller"
+          output="screen"/>
+
+	<!-- Define USB parameters and start the controller manager -->
+    <node name="dynamixel_manager" pkg="dynamixel_controllers" type="controller_manager.py" required="true" output="screen">
+        <rosparam>
+            namespace: dxl_manager
+            serial_ports:
+                pan_tilt_port:
+                    port_name: "/dev/ttyUSB1"
+                    baud_rate: 1000000
+                    min_motor_id: 0
+                    max_motor_id: 30
+                    update_rate: 20
+        </rosparam>
+    </node>
+
+</launch>

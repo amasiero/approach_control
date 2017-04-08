@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+	<node name="camera" pkg="uvc_camera" type="uvc_camera_node">
+		<!-- if the computer is a laptop, /dev/video0 will be the integrated camera,
+			 so /dev/video1 is the USB camera -->
+		<rosparam command="load" file="$(find judith_launch)/config/camera.yaml"/>
+		<!-- remap the webcam feed to the kinect camera feed, so that changes are seamless in the code -->
+		<remap from="/image_raw" to="camera/rgb/image_color" />
+	</node>
+</launch>
