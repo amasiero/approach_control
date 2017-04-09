@@ -38,13 +38,6 @@ def main(args):
     # Giving global scope to servo position variables 
     global position_joint_1, position_joint_2, position_joint_3, position_wrist, position_base
 
-     # Subscribers
-    rospy.Subscriber('/tilt2_controller/state', JointState, callback_joint_1, queue_size = 1)
-    rospy.Subscriber('/tilt3_controller/state', JointState, callback_joint_2, queue_size = 1)
-    rospy.Subscriber('/tilt4_controller/state', JointState, callback_joint_3, queue_size = 1)
-    rospy.Subscriber('/tilt5_controller/state', JointState, callback_wrist,   queue_size = 1)
-    rospy.Subscriber('/tilt_controller/state',  JointState, callback_base,    queue_size = 1)
-
     # Services
     srv_joint_1 = rospy.ServiceProxy('/tilt2_controller/torque_enable', TorqueEnable, persistent=True)
     srv_joint_2 = rospy.ServiceProxy('/tilt3_controller/torque_enable', TorqueEnable, persistent=True)
@@ -81,10 +74,22 @@ def main(args):
 
         finish_gesture = ''
         while finish_gesture.lower() != 'yes':
-            pass
+            rospy.loginfo('Move your servos to desired position.')
+            rospy.sleep(1)
+            finish_gesture = raw_input('Inform an option to continue: [save: to save position, yes: to finish gesture recording] ')
 
+            # Subscribers
+            rospy.Subscriber('/tilt2_controller/state', JointState, callback_joint_1, queue_size = 1)
+            rospy.Subscriber('/tilt3_controller/state', JointState, callback_joint_2, queue_size = 1)
+            rospy.Subscriber('/tilt4_controller/state', JointState, callback_joint_3, queue_size = 1)
+            rospy.Subscriber('/tilt5_controller/state', JointState, callback_wrist,   queue_size = 1)
+            rospy.Subscriber('/tilt_controller/state',  JointState, callback_base,    queue_size = 1)
 
-
+            if finish_gesture.lower() == 'save':
+                if gesture_name in keys:
+                    data[gesture_name].append([position_joint_1, position_joint_2, position_joint_3, position_wrist, position_base])
+                else:
+                    data[gesture_name] = [position_joint_1, position_joint_2, position_joint_3, position_wrist, position_base]
 
 
 if __name__ == '__main__':
