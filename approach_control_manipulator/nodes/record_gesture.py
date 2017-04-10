@@ -91,6 +91,11 @@ def main(args):
                 else:
                     data[gesture_name] = [position_joint_1, position_joint_2, position_joint_3, position_wrist, position_base]
 
+            if finish_gesture.lower() == 'yes':
+                with open(fname, 'w') as yaml_file:
+                    yaml_file.write(yaml.dump(data, default_flow_style=False))
+                rospy.loginfo("Gesture Saved!")
+
 
 if __name__ == '__main__':
     rospy.init_node('record_geture', anonymous = True)
