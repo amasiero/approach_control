@@ -8,7 +8,7 @@ class Recognizer(smach.State):
 	def __init__(self, spec = '', choices = {'0'}, time_out = 0):
 		outcomes = ['fail']
 		[outcomes.append(x) for x in spec]
-		smach.State.__init__(self, outcome = outcomes)
+		smach.State.__init__(self, outcomes = outcomes)
 
 		self.spec = '|'.join(spec)
 		self.choices = ('id', 'values', '0', '0')

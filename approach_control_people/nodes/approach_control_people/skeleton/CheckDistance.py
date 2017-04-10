@@ -16,11 +16,11 @@ class CheckDistance(smach.State):
 		package = 'openni_tracker'
 		executable = 'openni_tracker'
 		node_tracker = roslaunch.core.Node(package, executable)
-		node_distance = roslaunch.core.Node('approach_control_people', 'pub_distance.py')
+		# node_distance = roslaunch.core.Node('approach_control_people', 'pub_distance.py')
 		launch = roslaunch.scriptapi.ROSLaunch()
 		launch.start()
 		self.process_tracker = launch.launch(node_tracker)
-		self.process_distance = launch.launch(node_distance)
+		# self.process_distance = launch.launch(node_distance)
 
 	def callback(self, ndistance):
 		if ndistance.data < 1.1:
