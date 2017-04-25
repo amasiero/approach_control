@@ -10,7 +10,7 @@ def pub_distance():
 	rospy.init_node('pub_distance', anonymous=True)
 	
 	pub = rospy.Publisher('/torso_distance', Float64, queue_size=10)
-	transformer = tf.Transformer(True)
+	transformer = tf.TransformListener()
 	rate = rospy.Rate(10)
 
 	while not rospy.is_shutdown():
