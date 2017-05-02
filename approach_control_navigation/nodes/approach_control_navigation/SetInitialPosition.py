@@ -24,7 +24,7 @@ class SetInitialPosition(smach.State):
 		self.initialPositionMsg.pose.position.x = local_values[0][0]
 		self.initialPositionMsg.pose.position.y = local_values[0][1]
 		self.initialPositionMsg.pose.orientation.w = local_values[1][3]
-		self.initialPositionMsg.pose.orientation.z = 0
+		self.initialPositionMsg.pose.orientation.z = local_values[1][2]
 
 
 		for x in range(0, 35, 5):
