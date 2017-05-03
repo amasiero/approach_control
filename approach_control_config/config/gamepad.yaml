@@ -1,0 +1,4 @@
+acceleration_mode: left_analog # [left_analog, right_analog, l2_r2]
+linear_velocity_factor: 0.4
+angular_velocity_factor: 0.6
+arm_velocity_factor: 1

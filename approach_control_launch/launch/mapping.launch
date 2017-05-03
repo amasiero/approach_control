@@ -6,7 +6,7 @@
 	<include file="$(find p2os_launch)/launch/tf_base_link_to_laser.launch"/>
 	<include file="$(find p2os_launch)/launch/hokuyo.launch"/>
 	<include file="$(find p2os_launch)/launch/gmapping.launch"/>
-	<include file="$(find judith_launch)/launch/gamepad_teleop.launch"/>
+	<include file="$(find approach_control_launch)/launch/gamepad_teleop.launch"/>
     <!-- <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen"/> -->
     <node name="rviz" pkg="rviz" type="rviz"/>
 </launch>

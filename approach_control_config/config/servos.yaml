@@ -1,0 +1,99 @@
+tilt_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: tilt_joint
+    joint_speed: 1.0
+    motor:
+        id: 1
+        init: 512
+        min: 0
+        max: 1023
+
+tilt2_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: tilt2_joint
+    joint_speed: 0.8
+    motor:
+        id: 2
+        init: 512
+        min: 0
+        max: 1023
+
+tilt3_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: tilt3_joint
+    joint_speed: 0.8
+    motor:
+        id: 3
+        init: 512
+        min: 0
+        max: 1023
+
+tilt4_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: tilt4_joint
+    joint_speed: 0.8
+    motor:
+        id: 4
+        init: 512
+        min: 0
+        max: 1023
+tilt5_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: tilt5_joint
+    joint_speed: 1.0
+    motor:
+        id: 5
+        init: 512
+        min: 0
+        max: 1023
+tilt6_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: tilt6_joint
+    joint_speed: 1.0
+    motor:
+        id: 6
+        init: 512
+        min: 0
+        max: 1023
+pan_head:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: pan_head
+    joint_speed: 1.0
+    motor:
+        id: 7
+        init: 512
+        min: 10
+        max: 1010
+tilt_head:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: tilt_head
+    joint_speed: 1.0
+    motor:
+        id: 8
+        init: 512
+        min: 300
+        max: 600

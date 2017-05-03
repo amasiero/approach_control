@@ -1,0 +1,4 @@
+device: /dev/video1
+fps: 7
+width: 1280
+height: 720
