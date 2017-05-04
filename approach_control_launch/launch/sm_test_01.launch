@@ -19,7 +19,7 @@
         <param name="voice" value="voice_cmu_us_clb_arctic_clunits"/>
     </node>
     <node name="camera" output="screen" pkg="uvc_camera" type="uvc_camera_node" >
-        <rosparam command="load" file="$(find approach_control_launch)/config/camera.yaml"/>
+        <rosparam command="load" file="$(find approach_control_config)/config/camera.yaml"/>
     </node>
     <!-- <node name="get_distance" pkg="approach_control_people" type="pub_distance.py" /> -->
     <node name="sm_distance" pkg="approach_control_sm" type="sm_test_01.py" />
