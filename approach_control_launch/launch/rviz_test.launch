@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node args="-d $(find approach_control_launch)/config/navigation.rviz" name="rviz" pkg="rviz" type="rviz" respawn="true"/>
+</launch>
