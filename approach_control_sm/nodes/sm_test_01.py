@@ -33,7 +33,7 @@ def setup_sm():
         smach.StateMachine.add('OK', Say.Say("Okay!"),
                                transitions={'spoke' : 'SET_INITIAL_POSITION', 'mute' : 'Done'})
 
-        smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition('inicio'),
+        smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition(local='pessoal'),
                                transitions={'success':'GO_OBJECT','fail':'Done'})
         
         smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('mesa_objeto'),
