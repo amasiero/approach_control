@@ -11,14 +11,15 @@ class SetInitialPosition(smach.State):
     def __init__(self, local = 'Initial Position', var = 0.05):
         smach.State.__init__(self, outcomes = ['success', 'fail'])
 
-        params = rosparam.load_file(os.path.expanduser('~') + '/catkin_ws/src/approach_control/approach_control_config/config/locals.yaml')
+        # Reading yaml file for gesture
+        fname = os.path.expanduser('~') + '/catkin_ws/src/approach_control/approach_control_config/config/gestures.yaml'
+        stream = open(fname, 'r')
+        data = yaml.load(stream)
+        keys = data.keys()
         self.initPose = rospy.Publisher('/initialPose', PoseWithCovarianceStamped, queue_size = 0)
 
-        rospy.logwarn(params)
-
-        rospy.logerr('local ==>' + local)
-        if rospy.has_param(local):
-            local_values =  rospy.get_param(rospy.search_param(local))
+        if local in keys:
+            local_values =  data[local]
 
             # Define the initial position
             self.initialPositionMsg = PoseWithCovarianceStamped()
