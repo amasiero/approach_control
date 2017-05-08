@@ -70,12 +70,13 @@ class GestureAction(smach.State):
 
 
     def execute(self, userdata):
-        time.sleep(0.3)
+        rospy.sleep(0.3)
         # Reading yaml file for gesture
         fname = os.path.expanduser('~') + '/catkin_ws/src/judith/judith_launch/config/gestures.yaml'
         stream = open(fname, 'r')
         data = yaml.load(stream)
         keys = data.keys()
+        rospy.loginfo(keys)
 
         if not self.gesture_name:
             rospy.logerr('It\'s required name for gesture ... ')
