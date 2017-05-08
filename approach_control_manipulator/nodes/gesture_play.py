@@ -77,7 +77,7 @@ def main():
     keys = data.keys()
 
     # Calling a name for gesture
-    gesture_name = "point_long"
+    gesture_name = "point"
     if not gesture_name:
         rospy.logerr('It\'s required name for gesture ... ')
     else:
