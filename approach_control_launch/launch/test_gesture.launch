@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find approach_control_launch)/launch/start_arm_motors.launch" />
+    <node name="sm_gesture" pkg="approach_control_sm" type="sm_gesture_test.py" />
+    <node name="sm_viewer" pkg="smach_viewer" type="smach_viewer.py" />
+</launch>

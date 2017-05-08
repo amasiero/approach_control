@@ -22,17 +22,17 @@ class GestureAction(smach.State):
         self.step = 0.15 #execute a point every step time [ms]
 
         # Services
-        self.srv_joint_1 = rospy.ServiceProxy('/tilt2_controller/torque_enable', TorqueEnable)
-        self.srv_joint_2 = rospy.ServiceProxy('/tilt3_controller/torque_enable', TorqueEnable)
-        self.srv_joint_3 = rospy.ServiceProxy('/tilt4_controller/torque_enable', TorqueEnable)
-        self.srv_wrist   = rospy.ServiceProxy('/tilt5_controller/torque_enable', TorqueEnable)
-        self.srv_base    = rospy.ServiceProxy('/tilt_controller/torque_enable',  TorqueEnable)
+        self.srv_joint_1 = rospy.ServiceProxy('/tilt2_controller/torque_enable', TorqueEnable, persistent = True)
+        self.srv_joint_2 = rospy.ServiceProxy('/tilt3_controller/torque_enable', TorqueEnable, persistent = True)
+        self.srv_joint_3 = rospy.ServiceProxy('/tilt4_controller/torque_enable', TorqueEnable, persistent = True)
+        self.srv_wrist   = rospy.ServiceProxy('/tilt5_controller/torque_enable', TorqueEnable, persistent = True)
+        self.srv_base    = rospy.ServiceProxy('/tilt_controller/torque_enable',  TorqueEnable, persistent = True)
 
-        self.srv_speed1 = rospy.ServiceProxy('/tilt2_controller/torque_enable', SetSpeed)
-        self.srv_speed2 = rospy.ServiceProxy('/tilt3_controller/torque_enable', SetSpeed)
-        self.srv_speed3 = rospy.ServiceProxy('/tilt4_controller/torque_enable', SetSpeed)
-        self.srv_speedwrist   = rospy.ServiceProxy('/tilt5_controller/torque_enable', SetSpeed)
-        self.srv_speedbase    = rospy.ServiceProxy('/tilt_controller/torque_enable',  SetSpeed)
+        self.srv_speed1 = rospy.ServiceProxy('/tilt2_controller/set_speed', SetSpeed, persistent = True)
+        self.srv_speed2 = rospy.ServiceProxy('/tilt3_controller/set_speed', SetSpeed, persistent = True)
+        self.srv_speed3 = rospy.ServiceProxy('/tilt4_controller/set_speed', SetSpeed, persistent = True)
+        self.srv_speedwrist   = rospy.ServiceProxy('/tilt5_controller/set_speed', SetSpeed, persistent = True)
+        self.srv_speedbase    = rospy.ServiceProxy('/tilt_controller/set_speed',  SetSpeed, persistent = True)
         # Subscribers
         rospy.Subscriber('/tilt2_controller/state', JointState, self.callback_joint_1, queue_size = 1)
         rospy.Subscriber('/tilt3_controller/state', JointState, self.callback_joint_2, queue_size = 1)
@@ -40,9 +40,9 @@ class GestureAction(smach.State):
         rospy.Subscriber('/tilt5_controller/state', JointState, self.callback_wrist,   queue_size = 1)
         rospy.Subscriber('/tilt_controller/state',  JointState, self.callback_base,    queue_size = 1)
         #Publishers
-        self.joint1 = rospy.Publisher('/tilt2_controller/command', Float64, queue_size=1) #Junta 1
-        self.joint3 = rospy.Publisher('/tilt4_controller/command', Float64, queue_size=1) #Junta 3
-        self.joint2 = rospy.Publisher('/tilt3_controller/command', Float64, queue_size=1) #Junta 2
+        self.joint1 = rospy.Publisher('/tilt2_controller/command', Float64, queue_size = 1) #Junta 1
+        self.joint3 = rospy.Publisher('/tilt4_controller/command', Float64, queue_size = 1) #Junta 3
+        self.joint2 = rospy.Publisher('/tilt3_controller/command', Float64, queue_size = 1) #Junta 2
         self.joint4 = rospy.Publisher('/tilt5_controller/command', Float64, queue_size = 1) #Pulso
         self.base = rospy.Publisher('/tilt_controller/command', Float64, queue_size = 1)   #base
 
