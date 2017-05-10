@@ -4,7 +4,7 @@ import rospy
 import yaml
 import os.path
 import numpy as np
-from std_msgs.msg import Float64
+from std_msgs.msg import Float64, String
 from dynamixel_msgs.msg import JointState
 from dynamixel_controllers.srv import TorqueEnable, SetSpeed
 
@@ -15,6 +15,14 @@ position_wrist = 0
 position_base = 0
 moving = [0,0,0,0,0]
 vel_max = 0.6
+gesture_name = None
+
+#Publishers
+joint1 = rospy.Publisher('/tilt2_controller/command', Float64, queue_size=1) #Junta 1
+joint3 = rospy.Publisher('/tilt4_controller/command', Float64, queue_size=1) #Junta 3
+joint2 = rospy.Publisher('/tilt3_controller/command', Float64, queue_size=1) #Junta 2
+joint4 = rospy.Publisher('/tilt5_controller/command', Float64, queue_size = 1) #Pulso
+base = rospy.Publisher('/tilt_controller/command', Float64, queue_size = 1)   #base
 
 def callback_joint_1(data):
     global position_joint_1,moving
@@ -42,9 +50,26 @@ def callback_base(data):
     position_base = data.current_pos
     moving[4] = data.velocity
 
+def callback_gesture(data):
+    global joint1, joint2, joint3, joint4, base
+    # Reading yaml file for gesture
+    fname = os.path.expanduser('~') + '/catkin_ws/src/approach_control/approach_control_config/config/gestures.yaml'
+    stream = open(fname, 'r')
+    f = yaml.load(stream)
+    keys = f.keys()
+    
+    for x in f[data.data]:
+        rospy.loginfo('Playing ...')
+        rospy.sleep(0.2) #record a point every step of 600 ms
+        joint1.publish(x[0])
+        joint2.publish(x[1])
+        joint3.publish(x[2])
+        joint4.publish(x[3])
+        base.publish(x[4])
+
 def main():
     # Giving global scope to servo position variables
-    global position_joint_1, position_joint_2, position_joint_3, position_wrist, position_base
+    global position_joint_1, position_joint_2, position_joint_3, position_wrist, position_base, gesture_name
 
     # Services
     srv_joint_1 = rospy.ServiceProxy('/tilt2_controller/torque_enable', TorqueEnable, persistent=True)
@@ -63,43 +88,26 @@ def main():
     rospy.Subscriber('/tilt4_controller/state', JointState, callback_joint_3, queue_size = 1)
     rospy.Subscriber('/tilt5_controller/state', JointState, callback_wrist,   queue_size = 1)
     rospy.Subscriber('/tilt_controller/state',  JointState, callback_base,    queue_size = 1)
-    #Publishers
-    joint1 = rospy.Publisher('/tilt2_controller/command', Float64, queue_size=1) #Junta 1
-    joint3 = rospy.Publisher('/tilt4_controller/command', Float64, queue_size=1) #Junta 3
-    joint2 = rospy.Publisher('/tilt3_controller/command', Float64, queue_size=1) #Junta 2
-    joint4 = rospy.Publisher('/tilt5_controller/command', Float64, queue_size = 1) #Pulso
-    base = rospy.Publisher('/tilt_controller/command', Float64, queue_size = 1)   #base
+    rospy.Subscriber('/gesture/name',  String, callback_gesture,    queue_size = 10)
+    
 
-    # Reading yaml file for gesture
-    fname = os.path.expanduser('~') + '/catkin_ws/src/approach_control/approach_control_config/config/gestures.yaml'
-    stream = open(fname, 'r')
-    data = yaml.load(stream)
-    keys = data.keys()
+    srv_joint_1(True)
+    srv_joint_2(True)
+    srv_joint_3(True)
+    srv_wrist(True)
+    srv_base(True)
+    srv_speed1(vel_max)
+    srv_speed2(vel_max)
+    srv_speed3(vel_max)
+    srv_speedwrist(vel_max)
+    srv_speedbase(vel_max)
 
+    print(gesture_name)
     # Calling a name for gesture
-    gesture_name = "short"
-    if not gesture_name:
-        rospy.logerr('It\'s required name for gesture ... ')
-    else:
-            srv_joint_1(True)
-            srv_joint_2(True)
-            srv_joint_3(True)
-            srv_wrist(True)
-            srv_base(True)
-            srv_speed1(vel_max)
-            srv_speed2(vel_max)
-            srv_speed3(vel_max)
-            srv_speedwrist(vel_max)
-            srv_speedbase(vel_max)
-            for x in data[gesture_name]:
-                rospy.loginfo('Playing ...')
-                rospy.sleep(0.2) #record a point every step of 600 ms
-                joint1.publish(x[0])
-                joint2.publish(x[1])
-                joint3.publish(x[2])
-                joint4.publish(x[3])
-                base.publish(x[4])
+    if gesture_name:
+        
         # rospy.loginfo('FINISHED!!!')
+        gesture_name = None
 if __name__ == '__main__':
     rospy.init_node('record_geture', anonymous = True)
     main()
