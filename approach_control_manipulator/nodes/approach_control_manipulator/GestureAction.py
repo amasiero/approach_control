@@ -120,6 +120,7 @@ class GestureAction(smach.State):
                 # rospy.loginfo('FINISHED!!!')
 
                 self.pub_gesture.publish(self.gesture_name)
+                # rospy.sleep(10)
                 return 'success'
             except Exception as e:
                 rospy.logerr(e)

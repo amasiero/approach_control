@@ -45,7 +45,7 @@ def setup_sm():
         smach.StateMachine.add('ANGRY_FACE', PublishFace.PublishFace('angry'),
                                transitions={'success':'GO_FIND_PEOPLE','fail':'Done'})        
         
-        smach.StateMachine.add('GO_FIND_PEOPLE', GoToLocation.GoToLocation('mesa_objeto'),
+        smach.StateMachine.add('GO_FIND_PEOPLE', GoToLocation.GoToLocation('achou_pessoa'),
                                transitions={'success':'SURPRISE_FACE','fail':'Done'})
 
         smach.StateMachine.add('SURPRISE_FACE', PublishFace.PublishFace('surprise'),
@@ -54,7 +54,7 @@ def setup_sm():
         smach.StateMachine.add('HAPPY_FACE', PublishFace.PublishFace('happy'),
                                transitions={'success':'GO_INTIMA','fail':'Done'})        
 
-        smach.StateMachine.add('GO_INTIMA', GoToLocation.GoToLocation('mesa_objeto'),
+        smach.StateMachine.add('GO_INTIMA', GoToLocation.GoToLocation('intima'),
                                transitions={'success':'HI','fail':'Done'})
 
         smach.StateMachine.add('HI', Say.Say("Hi!"),

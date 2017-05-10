@@ -15,7 +15,6 @@ position_wrist = 0
 position_base = 0
 moving = [0,0,0,0,0]
 vel_max = 0.6
-gesture_name = None
 
 #Publishers
 joint1 = rospy.Publisher('/tilt2_controller/command', Float64, queue_size=1) #Junta 1
@@ -57,6 +56,8 @@ def callback_gesture(data):
     stream = open(fname, 'r')
     f = yaml.load(stream)
     keys = f.keys()
+
+    rospy.logwarn(data.data)
     
     for x in f[data.data]:
         rospy.loginfo('Playing ...')
@@ -69,7 +70,7 @@ def callback_gesture(data):
 
 def main():
     # Giving global scope to servo position variables
-    global position_joint_1, position_joint_2, position_joint_3, position_wrist, position_base, gesture_name
+    global position_joint_1, position_joint_2, position_joint_3, position_wrist, position_base
 
     # Services
     srv_joint_1 = rospy.ServiceProxy('/tilt2_controller/torque_enable', TorqueEnable, persistent=True)
@@ -102,12 +103,7 @@ def main():
     srv_speedwrist(vel_max)
     srv_speedbase(vel_max)
 
-    print(gesture_name)
-    # Calling a name for gesture
-    if gesture_name:
-        
-        # rospy.loginfo('FINISHED!!!')
-        gesture_name = None
+    
 if __name__ == '__main__':
     rospy.init_node('record_geture', anonymous = True)
     main()

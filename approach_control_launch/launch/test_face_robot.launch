@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+    <node name="sm_viewer" pkg="smach_viewer" type="smach_viewer.py" />
+    <!-- <node name="sm_test" pkg="approach_control_sm" type="sm_face_test.py" /> -->
+</launch>

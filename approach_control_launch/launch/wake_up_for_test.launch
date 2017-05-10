@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <launch>
+    <include file="$(find approach_control_launch)/launch/bring_up_robot.launch" />
+    <include file="$(find approach_control_launch)/launch/start_arm_motors.launch" />
     <include file="$(find dragonfly_speech_recognition)/example_launch/example.launch" />
     <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
     <node args="$(find approach_control_config)/maps/map.yaml" name="map_server" output="screen" pkg="map_server" type="map_server"/>
@@ -12,8 +14,6 @@
         <rosparam command="load" file="$(find approach_control_launch)/config/base_local_planner_params.yaml"/>
         <!-- <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" /> -->
     </node>
-    <include file="$(find approach_control_launch)/launch/bring_up_robot.launch" />
-    <include file="$(find approach_control_launch)/launch/start_arm_motors.launch" />
     <node name="soundplay_node" output="screen" pkg="sound_play" type="soundplay_node.py" />
     <node name="play" output="screen" pkg="approach_control_speech" type="play.py">
         <param name="voice" value="voice_cmu_us_clb_arctic_clunits"/>
@@ -21,9 +21,6 @@
     <node name="camera" output="screen" pkg="uvc_camera" type="uvc_camera_node" >
         <rosparam command="load" file="$(find approach_control_config)/config/camera.yaml"/>
     </node>
-    <!-- <node name="get_distance" pkg="approach_control_people" type="pub_distance.py" /> -->
-    <node name="sm_test" pkg="approach_control_sm" type="sm_test_01.py" />
-    <node name="execute_gesture" pkg="approach_control_manipulator" type="execute_gesture.py" />
     <node args="-d $(find approach_control_launch)/config/navigation.rviz" name="rviz" pkg="rviz" type="rviz" respawn="true"/>
     <node name="sm_viewer" pkg="smach_viewer" type="smach_viewer.py" />
 </launch>
