@@ -73,6 +73,17 @@ def main():
     global position_joint_1, position_joint_2, position_joint_3, position_wrist, position_base
 
     # Services
+    rospy.wait_for_service('/tilt2_controller/torque_enable')
+    rospy.wait_for_service('/tilt3_controller/torque_enable')
+    rospy.wait_for_service('/tilt4_controller/torque_enable')
+    rospy.wait_for_service('/tilt5_controller/torque_enable')
+    rospy.wait_for_service('/tilt_controller/torque_enable')
+    rospy.wait_for_service('/tilt2_controller/set_speed')
+    rospy.wait_for_service('/tilt3_controller/set_speed')
+    rospy.wait_for_service('/tilt4_controller/set_speed')
+    rospy.wait_for_service('/tilt5_controller/set_speed')
+    rospy.wait_for_service('/tilt_controller/set_speed')
+
     srv_joint_1 = rospy.ServiceProxy('/tilt2_controller/torque_enable', TorqueEnable, persistent=True)
     srv_joint_2 = rospy.ServiceProxy('/tilt3_controller/torque_enable', TorqueEnable, persistent=True)
     srv_joint_3 = rospy.ServiceProxy('/tilt4_controller/torque_enable', TorqueEnable, persistent=True)

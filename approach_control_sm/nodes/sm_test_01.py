@@ -9,7 +9,7 @@ import time
 from approach_control_speech import Say, Recognizer
 from approach_control_people.skeleton import CheckDistance
 from approach_control_navigation import GoToLocation, SetInitialPosition
-from approach_control_manipulator import GestureAction
+from approach_control_manipulator import GestureExecute
 from approach_control_robot_face import PublishFace
 
 def setup_sm():
@@ -39,7 +39,7 @@ def setup_sm():
         smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('mesa_objeto'),
                                transitions={'success':'POINT','fail':'Done'})
 
-        smach.StateMachine.add('POINT', GestureAction.GestureAction('point'),
+        smach.StateMachine.add('POINT', GestureExecute.GestureExecute('point'),
                                transitions={'success':'ANGRY_FACE','fail':'Done'})
         
         smach.StateMachine.add('ANGRY_FACE', PublishFace.PublishFace('angry'),
@@ -60,7 +60,7 @@ def setup_sm():
         smach.StateMachine.add('HI', Say.Say("Hi!"),
                                transitions={'spoke' : 'HELLO_GESTURE', 'mute' : 'Done'})
 
-        smach.StateMachine.add('HELLO_GESTURE', GestureAction.GestureAction('short'),
+        smach.StateMachine.add('HELLO_GESTURE', GestureExecute.GestureExecute('short'),
                                transitions={'success':'QUESTION','fail':'Done'})
 
         smach.StateMachine.add('QUESTION', Say.Say("Could you please help me find my cap?"),
