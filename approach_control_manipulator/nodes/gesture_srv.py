@@ -7,16 +7,23 @@ import numpy as np
 from std_msgs.msg import Float64, String
 from dynamixel_msgs.msg import JointState
 from dynamixel_controllers.srv import TorqueEnable, SetSpeed
-from approach_control_manipulator.srv import Gesture
+from approach_control_srv.srv import Gesture
 
 def play_gesture( request ):
     try:
+        #Publishers
+        joint1 = rospy.Publisher('/tilt2_controller/command', Float64, queue_size=1) #Junta 1
+        joint3 = rospy.Publisher('/tilt4_controller/command', Float64, queue_size=1) #Junta 3
+        joint2 = rospy.Publisher('/tilt3_controller/command', Float64, queue_size=1) #Junta 2
+        joint4 = rospy.Publisher('/tilt5_controller/command', Float64, queue_size = 1) #Pulso
+        base = rospy.Publisher('/tilt_controller/command', Float64, queue_size = 1)   #base
+        
         # Reading yaml file for gesture
         fname = os.path.expanduser('~') + '/catkin_ws/src/approach_control/approach_control_config/config/gestures.yaml'
         stream = open(fname, 'r')
         f = yaml.load(stream)
         
-        for x in f[request.gesture]:
+        for x in f[request.name]:
             rospy.loginfo('Playing ...')
             rospy.sleep(0.2) #record a point every step of 600 ms
             joint1.publish(x[0])
@@ -55,6 +62,8 @@ srv_speed2 = rospy.ServiceProxy('/tilt3_controller/set_speed', SetSpeed, persist
 srv_speed3 = rospy.ServiceProxy('/tilt4_controller/set_speed', SetSpeed, persistent=True)
 srv_speedwrist   = rospy.ServiceProxy('/tilt5_controller/set_speed', SetSpeed, persistent=True)
 srv_speedbase    = rospy.ServiceProxy('/tilt_controller/set_speed',  SetSpeed, persistent=True)
+
+vel_max = 0.6
 
 srv_joint_1(True)
 srv_joint_2(True)

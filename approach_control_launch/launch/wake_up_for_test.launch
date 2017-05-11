@@ -21,6 +21,7 @@
     <node name="camera" output="screen" pkg="uvc_camera" type="uvc_camera_node" >
         <rosparam command="load" file="$(find approach_control_config)/config/camera.yaml"/>
     </node>
+    <!-- <node name="gesture_srv" pkg="approach_control_manipulator" type="gesture_srv.py" /> -->
     <node args="-d $(find approach_control_launch)/config/navigation.rviz" name="rviz" pkg="rviz" type="rviz" respawn="true"/>
     <node name="sm_viewer" pkg="smach_viewer" type="smach_viewer.py" />
 </launch>

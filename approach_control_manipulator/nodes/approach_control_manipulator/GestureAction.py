@@ -11,7 +11,7 @@ from std_msgs.msg import Float64, String
 from dynamixel_msgs.msg import JointState
 from dynamixel_controllers.srv import TorqueEnable, SetSpeed
 from dynamixel_driver.dynamixel_io import DynamixelIO
-from approach_control_manipulator.srv import Gesture
+from approach_control_srv.srv import Gesture
 
 class GestureAction(smach.State):
     def __init__(self, gesture_name):
