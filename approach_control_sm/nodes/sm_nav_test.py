@@ -37,43 +37,28 @@ def setup_sm():
                                transitions={'success':'GO_OBJECT','fail':'Done'})
         
         smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('pa_mesa'),
-                               transitions={'success':'POINT','fail':'Done'})
+                               transitions={'success':'GO_ARCHIVE','fail':'Done'})
 
-        smach.StateMachine.add('POINT', GestureAction.GestureAction('point'),
-                               transitions={'success':'ANGRY_FACE','fail':'Done'})
-        
-        smach.StateMachine.add('ANGRY_FACE', PublishFace.PublishFace('angry'),
-                               transitions={'success':'GO_ARCHIVE','fail':'Done'})        
+        # smach.StateMachine.add('GO_CENTER', GoToLocation.GoToLocation('pa_centro'),
+        #                        transitions={'success':'GO_ARCHIVE','fail':'Done'})
         
         smach.StateMachine.add('GO_ARCHIVE', GoToLocation.GoToLocation('pa_arquivo'),
-                               transitions={'success':'POINT2','fail':'Done'})
-
-        smach.StateMachine.add('POINT2', GestureAction.GestureAction('point'),
                                transitions={'success':'GO_PESSOAL_S','fail':'Done'})
-
+        
         smach.StateMachine.add('GO_PESSOAL_S', GoToLocation.GoToLocation('pa_pessoal_s'),
-                               transitions={'success':'SURPRISE_FACE','fail':'Done'})
-
-        smach.StateMachine.add('SURPRISE_FACE', PublishFace.PublishFace('surprise'),
-                               transitions={'success':'HAPPY_FACE','fail':'Done'})        
-
-        smach.StateMachine.add('HAPPY_FACE', PublishFace.PublishFace('happy'),
-                               transitions={'success':'HI','fail':'Done'})        
-
-        smach.StateMachine.add('HI', Say.Say("Hi!"),
-                               transitions={'spoke' : 'HELLO_GESTURE', 'mute' : 'Done'})
-
-        smach.StateMachine.add('HELLO_GESTURE', GestureAction.GestureAction('short'),
                                transitions={'success':'GO_INTIMA_S','fail':'Done'})
 
         smach.StateMachine.add('GO_INTIMA_S', GoToLocation.GoToLocation('pa_intima_s'),
-                               transitions={'success':'QUESTION','fail':'Done'})
+                               transitions={'success':'GO_PORT','fail':'Done'})
 
-        smach.StateMachine.add('QUESTION', Say.Say("Could you please, help me find, my cap?"),
-                               transitions={'spoke' : 'YES', 'mute' : 'Done'})
+        smach.StateMachine.add('GO_PORT', GoToLocation.GoToLocation('pa_porta_lateral'),
+                               transitions={'success':'GO_PESSOAL_P','fail':'Done'})
 
-        smach.StateMachine.add('YES', Recognizer.Recognizer(spec = ['Yes'], time_out = 100),
-                               transitions={'Yes' : 'THANKS', 'fail' : 'YES'})
+        smach.StateMachine.add('GO_PESSOAL_P', GoToLocation.GoToLocation('pa_pessoal_p'),
+                               transitions={'success':'GO_INTIMA_P','fail':'Done'})
+
+        smach.StateMachine.add('GO_INTIMA_P', GoToLocation.GoToLocation('pa_intima_p'),
+                               transitions={'success':'THANKS','fail':'Done'})
 
         smach.StateMachine.add('THANKS', Say.Say("Thank you"),
                                transitions={'spoke' : 'Done', 'mute' : 'Done'})
