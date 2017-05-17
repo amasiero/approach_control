@@ -55,13 +55,21 @@ def setup_sm():
                                transitions={'success':'GO_INTIMA','fail':'Done'})        
 
         smach.StateMachine.add('GO_INTIMA', GoToLocation.GoToLocation('intima'),
-                               transitions={'success':'HI','fail':'Done'})
+                               transitions={'success':'CON','fail':'Done'})
 
-        smach.StateMachine.add('HI', Say.Say("Hi!"),
-                               transitions={'spoke' : 'HELLO_GESTURE', 'mute' : 'Done'})
+        sm_con = smach.Concurrence(outcomes=['success', 'fail'],
+                                    default_outcome = 'fail'
+                                    outcome_map = {'success' : 
+                                        {'HI' : 'spoke',
+                                          'HELLO_GESTURE' : 'success'}})
 
-        smach.StateMachine.add('HELLO_GESTURE', GestureAction.GestureAction('short'),
-                               transitions={'success':'QUESTION','fail':'Done'})
+        with sm_con:
+          smach.Concurrence.add('HI', Say.Say("Hi!"))
+
+          smach.Concurrence.add('HELLO_GESTURE', GestureAction.GestureAction('short'))
+
+        smach.StateMachine.add('CON', sm_con,
+                                transitions={'success':'QUESTION', 'fail':'CON'})
 
         smach.StateMachine.add('QUESTION', Say.Say("Could you please help me find my cap?"),
                                transitions={'spoke' : 'YES', 'mute' : 'Done'})
