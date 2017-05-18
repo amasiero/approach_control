@@ -33,10 +33,10 @@ def setup_sm():
         smach.StateMachine.add('OK', Say.Say("Okay!"),
                                transitions={'spoke' : 'SET_INITIAL_POSITION', 'mute' : 'Done'})
 
-        smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition(local='inicio'),
+        smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition(local='entrada_casa'),
                                transitions={'success':'GO_OBJECT','fail':'Done'})
         
-        smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('mesa_objeto'),
+        smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('mesa_casa'),
                                transitions={'success':'POINT','fail':'Done'})
 
         smach.StateMachine.add('POINT', GestureAction.GestureAction('point'),
@@ -45,7 +45,7 @@ def setup_sm():
         smach.StateMachine.add('ANGRY_FACE', PublishFace.PublishFace('angry'),
                                transitions={'success':'GO_FIND_PEOPLE','fail':'Done'})        
         
-        smach.StateMachine.add('GO_FIND_PEOPLE', GoToLocation.GoToLocation('achou_pessoa'),
+        smach.StateMachine.add('GO_FIND_PEOPLE', GoToLocation.GoToLocation('corredor_casa_indo_sala'),
                                transitions={'success':'SURPRISE_FACE','fail':'Done'})
 
         smach.StateMachine.add('SURPRISE_FACE', PublishFace.PublishFace('surprise'),
@@ -54,11 +54,11 @@ def setup_sm():
         smach.StateMachine.add('HAPPY_FACE', PublishFace.PublishFace('happy'),
                                transitions={'success':'GO_INTIMA','fail':'Done'})        
 
-        smach.StateMachine.add('GO_INTIMA', GoToLocation.GoToLocation('intima'),
+        smach.StateMachine.add('GO_INTIMA', GoToLocation.GoToLocation('sala_casa'),
                                transitions={'success':'CON','fail':'Done'})
 
         sm_con = smach.Concurrence(outcomes=['success', 'fail'],
-                                    default_outcome = 'fail'
+                                    default_outcome = 'fail',
                                     outcome_map = {'success' : 
                                         {'HI' : 'spoke',
                                           'HELLO_GESTURE' : 'success'}})
