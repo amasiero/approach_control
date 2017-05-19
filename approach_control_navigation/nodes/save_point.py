@@ -35,11 +35,11 @@ class SavePoint(object):
         if self.controller.x:
             self.newKey += 1
             print(self.amcl_pose)
-            print(self.pose)
+            # print(self.pose)
             if self.data:
-                self.data[self.newKey] = [[self.amcl_pose.position.x, self.amcl_pose.position.y], [0.0, 0.0, self.pose.orientation.z, self.pose.orientation.w]]
+                self.data[self.newKey] = [[self.amcl_pose.position.x, self.amcl_pose.position.y], [0.0, 0.0, self.amcl_pose.orientation.z, self.amcl_pose.orientation.w]]
             else:
-                self.data = dict([(self.newKey, [[self.amcl_pose.position.x, self.amcl_pose.position.y], [0.0, 0.0, self.pose.orientation.z, self.pose.orientation.w]])])
+                self.data = dict([(self.newKey, [[self.amcl_pose.position.x, self.amcl_pose.position.y], [0.0, 0.0, self.amcl_pose.orientation.z, self.amcl_pose.orientation.w]])])
             with open(self.fname, 'w') as yaml_file:
                 yaml_file.write(yaml.dump(self.data, default_flow_style = False))
             rospy.sleep(0.5)
