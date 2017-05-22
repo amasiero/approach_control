@@ -33,7 +33,7 @@ def setup_sm():
         smach.StateMachine.add('OK', Say.Say("Okay!"),
                                transitions={'spoke' : 'SET_INITIAL_POSITION', 'mute' : 'Done'})
 
-        smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition(local='test_entrada_1'),
+        smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition(local='test_entrada'),
                                transitions={'success':'GO_OBJECT','fail':'Done'})
         
         smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('test_mesa'),
@@ -54,7 +54,7 @@ def setup_sm():
         smach.StateMachine.add('HAPPY_FACE', PublishFace.PublishFace('happy'),
                                transitions={'success':'GO_INTIMA','fail':'Done'})        
 
-        smach.StateMachine.add('GO_INTIMA', GoToLocation.GoToLocation('test_sofa'),
+        smach.StateMachine.add('GO_INTIMA', GoToLocation.GoToLocation('test_sofa_p'),
                                transitions={'success':'CON','fail':'Done'})
 
         sm_con = smach.Concurrence(outcomes=['success', 'fail'],
@@ -78,7 +78,10 @@ def setup_sm():
                                transitions={'Yes' : 'THANKS', 'fail' : 'YES'})
 
         smach.StateMachine.add('THANKS', Say.Say("Thank you"),
-                               transitions={'spoke' : 'Done', 'mute' : 'Done'})
+                               transitions={'spoke' : 'EXIT', 'mute' : 'Done'})
+
+        smach.StateMachine.add('EXIT', GoToLocation.GoToLocation('test_sofa_p'),
+                               transitions={'success':'Done','fail':'Done'})
 
     sis = smach_ros.IntrospectionServer('Judith_StateMachineServer', sm, '/SM_JUDITH')
     sis.start()
