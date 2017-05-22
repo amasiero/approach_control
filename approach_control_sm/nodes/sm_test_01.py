@@ -45,7 +45,7 @@ def setup_sm():
         smach.StateMachine.add('ANGRY_FACE', PublishFace.PublishFace('angry'),
                                transitions={'success':'GO_FIND_PEOPLE','fail':'Done'})        
         
-        smach.StateMachine.add('GO_FIND_PEOPLE', GoToLocation.GoToLocation('test_corredor'),
+        smach.StateMachine.add('GO_FIND_PEOPLE', GoToLocation.GoToLocation('test_sala'),
                                transitions={'success':'SURPRISE_FACE','fail':'Done'})
 
         smach.StateMachine.add('SURPRISE_FACE', PublishFace.PublishFace('surprise'),
@@ -54,7 +54,7 @@ def setup_sm():
         smach.StateMachine.add('HAPPY_FACE', PublishFace.PublishFace('happy'),
                                transitions={'success':'GO_INTIMA','fail':'Done'})        
 
-        smach.StateMachine.add('GO_INTIMA', GoToLocation.GoToLocation('test_sala'),
+        smach.StateMachine.add('GO_INTIMA', GoToLocation.GoToLocation('test_sofa'),
                                transitions={'success':'CON','fail':'Done'})
 
         sm_con = smach.Concurrence(outcomes=['success', 'fail'],
@@ -89,5 +89,5 @@ def setup_sm():
     sis.stop()
 
 if __name__ == '__main__':
-    rospy.init_node('test_sm_robot_walking')
+    rospy.init_node('test_01_sm')
     setup_sm()
