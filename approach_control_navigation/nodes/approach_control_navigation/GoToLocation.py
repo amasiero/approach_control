@@ -30,6 +30,7 @@ class GoToLocation(smach.State):
 		self.goal.target_pose.header.frame_id = 'map'
 		self.goal.target_pose.pose.position.x = local_values[0][0]
 		self.goal.target_pose.pose.position.y = local_values[0][1]
+		self.goal.target_pose.pose.orientation.z = local_values[1][2]
 		self.goal.target_pose.pose.orientation.w = local_values[1][3]
 
 

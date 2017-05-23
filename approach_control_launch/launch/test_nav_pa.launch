@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+    <node name="check_voltage" pkg="approach_control_manipulator" type="check_voltage.py" />
     <node name="enable_motor" pkg="p2os_enablemotor" type="enable_motor" />
     <node name="sm_test" pkg="approach_control_sm" type="sm_nav_test.py" />
 </launch>

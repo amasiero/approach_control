@@ -37,10 +37,10 @@ def setup_sm():
                                transitions={'success':'GO_OBJECT','fail':'Done'})
         
         smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('test_cozinha'),
-                               transitions={'success':'GO_ARCHIVE','fail':'Done'})
+                               transitions={'success':'GO_CENTER','fail':'Done'})
 
-        # smach.StateMachine.add('GO_CENTER', GoToLocation.GoToLocation('pa_centro'),
-        #                        transitions={'success':'GO_ARCHIVE','fail':'Done'})
+        smach.StateMachine.add('GO_CENTER', GoToLocation.GoToLocation('test_mesa'),
+                               transitions={'success':'GO_ARCHIVE','fail':'Done'})
         
         smach.StateMachine.add('GO_ARCHIVE', GoToLocation.GoToLocation('test_corredor'),
                                transitions={'success':'GO_PESSOAL_S','fail':'Done'})
