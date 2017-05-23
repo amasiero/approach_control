@@ -36,9 +36,9 @@
 		<param name="recovery_alpha_slow" value="0.0"/>
 		<param name="recovery_alpha_fast" value="0.0"/>
 		<!-- need for changing to MCL -->
-		<param name="initial_cov_xx" value="4"/>
-		<param name="initial_cov_yy" value="4"/>
-		<param name="initial_cov_aa" value="2.5"/>
+		<param name="initial_cov_xx" value="12"/>
+		<param name="initial_cov_yy" value="8"/>
+		<param name="initial_cov_aa" value="6.5"/>
 		<!--initial position-->
 <!-- 		<param name="initial_pose_x" value="-0.0393505096436"/>
 		<param name="initial_pose_y" value="2.27395963669"/>
