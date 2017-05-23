@@ -33,31 +33,31 @@ def setup_sm():
         smach.StateMachine.add('OK', Say.Say("Okay!"),
                                transitions={'spoke' : 'SET_INITIAL_POSITION', 'mute' : 'Done'})
 
-        smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition(local='pa_inicio'),
+        smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition(local='test_entrada'),
                                transitions={'success':'GO_OBJECT','fail':'Done'})
         
-        smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('pa_mesa'),
+        smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('test_cozinha'),
                                transitions={'success':'GO_ARCHIVE','fail':'Done'})
 
         # smach.StateMachine.add('GO_CENTER', GoToLocation.GoToLocation('pa_centro'),
         #                        transitions={'success':'GO_ARCHIVE','fail':'Done'})
         
-        smach.StateMachine.add('GO_ARCHIVE', GoToLocation.GoToLocation('pa_arquivo'),
+        smach.StateMachine.add('GO_ARCHIVE', GoToLocation.GoToLocation('test_corredor'),
                                transitions={'success':'GO_PESSOAL_S','fail':'Done'})
         
-        smach.StateMachine.add('GO_PESSOAL_S', GoToLocation.GoToLocation('pa_pessoal_s'),
+        smach.StateMachine.add('GO_PESSOAL_S', GoToLocation.GoToLocation('test_sala'),
                                transitions={'success':'GO_INTIMA_S','fail':'Done'})
 
-        smach.StateMachine.add('GO_INTIMA_S', GoToLocation.GoToLocation('pa_intima_s'),
+        smach.StateMachine.add('GO_INTIMA_S', GoToLocation.GoToLocation('test_armario'),
                                transitions={'success':'GO_PORT','fail':'Done'})
 
-        smach.StateMachine.add('GO_PORT', GoToLocation.GoToLocation('pa_porta_lateral'),
+        smach.StateMachine.add('GO_PORT', GoToLocation.GoToLocation('test_sofa_l'),
                                transitions={'success':'GO_PESSOAL_P','fail':'Done'})
 
-        smach.StateMachine.add('GO_PESSOAL_P', GoToLocation.GoToLocation('pa_pessoal_p'),
+        smach.StateMachine.add('GO_PESSOAL_P', GoToLocation.GoToLocation('test_sofa_p'),
                                transitions={'success':'GO_INTIMA_P','fail':'Done'})
 
-        smach.StateMachine.add('GO_INTIMA_P', GoToLocation.GoToLocation('pa_intima_p'),
+        smach.StateMachine.add('GO_INTIMA_P', GoToLocation.GoToLocation('test_saida'),
                                transitions={'success':'THANKS','fail':'Done'})
 
         smach.StateMachine.add('THANKS', Say.Say("Thank you"),
