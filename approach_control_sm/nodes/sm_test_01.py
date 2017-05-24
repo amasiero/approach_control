@@ -49,7 +49,13 @@ def setup_sm():
                                transitions={'success':'SURPRISE_FACE','fail':'Done'})
 
         smach.StateMachine.add('SURPRISE_FACE', PublishFace.PublishFace('surprise'),
-                               transitions={'success':'HAPPY_FACE','fail':'Done'})        
+                               transitions={'success':'SURPRISE_FACE_2','fail':'Done'})
+
+        smach.StateMachine.add('SURPRISE_FACE_2', PublishFace.PublishFace('surprise'),
+                               transitions={'success':'SURPRISE_FACE_3','fail':'Done'}) 
+
+        smach.StateMachine.add('SURPRISE_FACE_3', PublishFace.PublishFace('surprise'),
+                               transitions={'success':'HAPPY_FACE','fail':'Done'})         
 
         smach.StateMachine.add('HAPPY_FACE', PublishFace.PublishFace('happy'),
                                transitions={'success':'GO_INTIMA','fail':'Done'})        
@@ -64,9 +70,10 @@ def setup_sm():
                                           'HELLO_GESTURE' : 'success'}})
 
         with sm_con:
-          smach.Concurrence.add('HI', Say.Say("Hi!"))
-
+          
           smach.Concurrence.add('HELLO_GESTURE', GestureAction.GestureAction('short'))
+
+          smach.Concurrence.add('HI', Say.Say("Hi!"))
 
         smach.StateMachine.add('CON', sm_con,
                                 transitions={'success':'QUESTION', 'fail':'CON'})
@@ -80,7 +87,7 @@ def setup_sm():
         smach.StateMachine.add('THANKS', Say.Say("Thank you"),
                                transitions={'spoke' : 'EXIT', 'mute' : 'Done'})
 
-        smach.StateMachine.add('EXIT', GoToLocation.GoToLocation('test_sofa_p'),
+        smach.StateMachine.add('EXIT', GoToLocation.GoToLocation('test_saida'),
                                transitions={'success':'Done','fail':'Done'})
 
     sis = smach_ros.IntrospectionServer('Judith_StateMachineServer', sm, '/SM_JUDITH')
