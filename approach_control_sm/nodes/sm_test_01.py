@@ -48,7 +48,7 @@ def setup_sm():
         smach.StateMachine.add('GO_FIND_PEOPLE', GoToLocation.GoToLocation('test_sala'),
                                transitions={'success':'SURPRISE_FACE','fail':'Done'})
 
-        smach.StateMachine.add('SURPRISE_FACE', PublishFace.PublishFace('surprise'),
+        smach.StateMachine.add('SURPRISE_FACE', PublishFace.PublishFace('surprise_blured'),
                                transitions={'success':'HAPPY_FACE','fail':'Done'})
 
         # smach.StateMachine.add('SURPRISE_FACE_2', PublishFace.PublishFace('surprise'),
