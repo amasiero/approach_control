@@ -16,6 +16,9 @@ class PublishFace(smach.State):
         rospy.sleep(0.1)
 
         if self.face is not None:
+            if self.face == 'surprise':
+                print('Surprise!')
+                rospy.sleep(1)
             self.publish_face.publish(self.face)
             return 'success'
         else:

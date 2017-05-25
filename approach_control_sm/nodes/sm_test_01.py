@@ -49,13 +49,13 @@ def setup_sm():
                                transitions={'success':'SURPRISE_FACE','fail':'Done'})
 
         smach.StateMachine.add('SURPRISE_FACE', PublishFace.PublishFace('surprise'),
-                               transitions={'success':'SURPRISE_FACE_2','fail':'Done'})
+                               transitions={'success':'HAPPY_FACE','fail':'Done'})
 
-        smach.StateMachine.add('SURPRISE_FACE_2', PublishFace.PublishFace('surprise'),
-                               transitions={'success':'SURPRISE_FACE_3','fail':'Done'}) 
+        # smach.StateMachine.add('SURPRISE_FACE_2', PublishFace.PublishFace('surprise'),
+        #                        transitions={'success':'SURPRISE_FACE_3','fail':'Done'}) 
 
-        smach.StateMachine.add('SURPRISE_FACE_3', PublishFace.PublishFace('surprise'),
-                               transitions={'success':'HAPPY_FACE','fail':'Done'})         
+        # smach.StateMachine.add('SURPRISE_FACE_3', PublishFace.PublishFace('surprise'),
+        #                        transitions={'success':'HAPPY_FACE','fail':'Done'})         
 
         smach.StateMachine.add('HAPPY_FACE', PublishFace.PublishFace('happy'),
                                transitions={'success':'GO_INTIMA','fail':'Done'})        

@@ -127,6 +127,7 @@ class GestureAction(smach.State):
                 g = self.srv_gesture_play(self.gesture_name)
                 rospy.logwarn(g.executed)
                 if g.executed:
+                    rospy.sleep(0.2)
                     return 'success'
                 else:
                     return 'fail'
