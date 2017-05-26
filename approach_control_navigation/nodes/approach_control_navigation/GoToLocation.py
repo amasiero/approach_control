@@ -25,7 +25,6 @@ class GoToLocation(smach.State):
         rospy.wait_for_service('/move_base/clear_costmaps')
         self.srv_clear_costmap = rospy.ServiceProxy('/move_base/clear_costmaps', Empty, persistent = True)
 
-
         # Get an action client
         self.client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
         self.client.wait_for_server()
@@ -40,10 +39,12 @@ class GoToLocation(smach.State):
 
 
     def execute(self, userdata):
-        self.srv_clear_costmap()
-        rospy.sleep(0.2)
+        
         self.client.send_goal(self.goal)
         self.client.wait_for_result()
+
+        self.srv_clear_costmap()
+        rospy.sleep(0.2)
 
         if self.client.get_state() == actionlib.GoalStatus.SUCCEEDED:
             return 'success'
