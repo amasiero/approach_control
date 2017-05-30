@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="joy" output="screen" pkg="joy" respawn="true" type="joy_node"/>
+    <node name="gamepad_teleop" output="screen" pkg="judith_teleop" respawn="true" type="gamepad_teleop.py">
+        <rosparam command="load" file="$(find approach_control_config)/config/gamepad.yaml"/>
+    </node>
+    <node name="save_points" output="screen" pkg="approach_control_navigation" respawn="true" type="save_point.py" />
+</launch>
