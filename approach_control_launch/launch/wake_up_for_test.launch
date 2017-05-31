@@ -4,7 +4,7 @@
     <include file="$(find approach_control_launch)/launch/start_arm_motors.launch" />
     <include file="$(find dragonfly_speech_recognition)/example_launch/example.launch" />
     <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
-    <node args="$(find approach_control_config)/maps/casa_judith.yaml" name="map_server" output="screen" pkg="map_server" type="map_server"/>
+    <node args="$(find approach_control_config)/maps/home.yaml" name="map_server" output="screen" pkg="map_server" type="map_server"/>
     <include file="$(find approach_control_launch)/launch/amcl_diff.launch"/>
     <node name="move_base" output="screen" pkg="move_base" respawn="false" type="move_base">
         <rosparam command="load" file="$(find approach_control_launch)/config/costmap_common_params.yaml" ns="global_costmap"/>

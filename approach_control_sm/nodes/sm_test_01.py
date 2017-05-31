@@ -33,13 +33,16 @@ def setup_sm():
         smach.StateMachine.add('OK', Say.Say("Okay!"),
                                transitions={'spoke' : 'SET_INITIAL_POSITION', 'mute' : 'Done'})
 
-        smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition(local='test_entrada'),
+        smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition(local='inicio'),
                                transitions={'success':'GO_OBJECT','fail':'Done'})
         
-        smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('test_cozinha_indo_mesa'),
+        smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('entrada_cozinha'),
                                transitions={'success':'GO_OBJECT_2','fail':'Done'})
 
-        smach.StateMachine.add('GO_OBJECT_2', GoToLocation.GoToLocation('test_mesa'),
+        smach.StateMachine.add('GO_OBJECT_2', GoToLocation.GoToLocation('entrada_cozinha_2'),
+                               transitions={'success':'GO_OBJECT_3','fail':'Done'})
+
+        smach.StateMachine.add('GO_OBJECT_3', GoToLocation.GoToLocation('mesa'),
                                transitions={'success':'POINT','fail':'Done'})
 
         smach.StateMachine.add('POINT', GestureAction.GestureAction('point'),
@@ -48,10 +51,13 @@ def setup_sm():
         smach.StateMachine.add('ANGRY_FACE', PublishFace.PublishFace('angry'),
                                transitions={'success':'GO_FIND_PEOPLE','fail':'Done'})        
         
-        # smach.StateMachine.add('GO_FIND_PEOPLE', GoToLocation.GoToLocation('test_cozinha_vindo_mesa'),
-        #                        transitions={'success':'GO_FIND_PEOPLE_2','fail':'Done'})
+        smach.StateMachine.add('GO_FIND_PEOPLE', GoToLocation.GoToLocation('saida_cozinha'),
+                               transitions={'success':'GO_FIND_PEOPLE_2','fail':'Done'})
 
-        smach.StateMachine.add('GO_FIND_PEOPLE', GoToLocation.GoToLocation('test_sala'),
+        smach.StateMachine.add('GO_FIND_PEOPLE_2', GoToLocation.GoToLocation('saida_cozinha_2'),
+                               transitions={'success':'GO_FIND_PEOPLE_3','fail':'Done'})
+
+        smach.StateMachine.add('GO_FIND_PEOPLE_3', GoToLocation.GoToLocation('sala'),
                                transitions={'success':'SURPRISE_FACE','fail':'Done'})
 
         smach.StateMachine.add('SURPRISE_FACE', PublishFace.PublishFace('surprise_blured'),
@@ -66,7 +72,7 @@ def setup_sm():
         smach.StateMachine.add('HAPPY_FACE', PublishFace.PublishFace('happy'),
                                transitions={'success':'GO_INTIMA','fail':'Done'})        
 
-        smach.StateMachine.add('GO_INTIMA', GoToLocation.GoToLocation('test_sofa_p'),
+        smach.StateMachine.add('GO_INTIMA', GoToLocation.GoToLocation('sofa_p'),
                                transitions={'success':'CON','fail':'Done'})
 
         sm_con = smach.Concurrence(outcomes=['success', 'fail'],
@@ -93,11 +99,15 @@ def setup_sm():
         smach.StateMachine.add('THANKS', Say.Say("Thank you"),
                                transitions={'spoke' : 'EXIT', 'mute' : 'Done'})
 
-        smach.StateMachine.add('EXIT', GoToLocation.GoToLocation('test_saindo'),
+        smach.StateMachine.add('EXIT', GoToLocation.GoToLocation('saida_1'),
                                transitions={'success':'EXIT_2','fail':'Done'})
 
-        smach.StateMachine.add('EXIT_2', GoToLocation.GoToLocation('test_saida'),
+        smach.StateMachine.add('EXIT_2', GoToLocation.GoToLocation('saida_2'),
+                               transitions={'success':'EXIT_3','fail':'Done'})
+
+        smach.StateMachine.add('EXIT_3', GoToLocation.GoToLocation('fora_casa'),
                                transitions={'success':'Done','fail':'Done'})
+
 
     sis = smach_ros.IntrospectionServer('Judith_StateMachineServer', sm, '/SM_JUDITH')
     sis.start()

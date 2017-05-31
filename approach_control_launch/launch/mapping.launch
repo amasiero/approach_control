@@ -8,5 +8,5 @@
 	<include file="$(find p2os_launch)/launch/gmapping.launch"/>
 	<include file="$(find approach_control_launch)/launch/gamepad_teleop.launch"/>
     <!-- <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen"/> -->
-    <node name="rviz" pkg="rviz" type="rviz"/>
+    <node args="-d $(find approach_control_launch)/config/navigation.rviz" name="rviz" pkg="rviz" type="rviz" respawn="true"/>
 </launch>
