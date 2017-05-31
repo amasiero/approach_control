@@ -16,11 +16,9 @@ class PublishFace(smach.State):
         rospy.sleep(0.1)
 
         if self.face is not None:
-            rospy.logwarn(self.face)
-            rospy.logwarn(self.face == 'surprise_blured')
-            if self.face == 'surprise_blured':
-                rospy.sleep(2)
             self.publish_face.publish(self.face)
+            if self.face == 'surprise_blured':
+                rospy.sleep(1)
             return 'success'
         else:
             rospy.logerr('Face not found...')
