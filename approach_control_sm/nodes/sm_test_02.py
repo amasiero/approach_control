@@ -36,7 +36,19 @@ def setup_sm():
         smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition(local='inicio'),
                                transitions={'success':'GO_OBJECT','fail':'Done'})
         
-        smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('entrada_cozinha'),
+        smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('armario'),
+                               transitions={'success':'WHERE_IS_BOTTLE','fail':'Done'})
+
+        smach.StateMachine.add('WHERE_IS_BOTTLE', Say.Say("I let a bottle here."),
+                                transitions={'spoke' : 'HEAD', 'mute' : 'Done'})
+
+        smach.StateMachine.add('HEAD', GestureAction.GestureAction('head'),
+                               transitions={'success':'KITCHEN','fail':'Done'})
+
+        smach.StateMachine.add('KITCHEN', Say.Say("Maybe in the kitchen?"),
+                                transitions={'spoke' : 'GO_OBJECT', 'mute' : 'Done'})
+
+        smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('entrada_cozinha_1'),
                                transitions={'success':'GO_OBJECT_2','fail':'Done'})
 
         smach.StateMachine.add('GO_OBJECT_2', GoToLocation.GoToLocation('entrada_cozinha_2'),
@@ -57,7 +69,7 @@ def setup_sm():
 
           smach.Concurrence.add('ANGRY_FACE', PublishFace.PublishFace('angry'))
 
-          smach.Concurrence.add('DAMMED', Say.Say("Dammed!, where is, my salad."))
+          smach.Concurrence.add('DAMMED', Say.Say("Dammed!, It is not here too!"))
         
         smach.StateMachine.add('CON_1', sm_con_1,
                                 transitions={'success':'GO_FIND_PEOPLE', 'fail':'CON_1'})
@@ -87,7 +99,7 @@ def setup_sm():
                                           'HELLO_GESTURE' : 'success'}})
         with sm_con_2:
           
-          smach.Concurrence.add('HELLO_GESTURE', GestureAction.GestureAction('short'))
+          smach.Concurrence.add('HELLO_GESTURE', GestureAction.GestureAction('long_hello'))
 
           smach.Concurrence.add('HI', Say.Say("Hi!"))
 
@@ -100,7 +112,7 @@ def setup_sm():
         smach.StateMachine.add('YES', Recognizer.Recognizer(spec = ['Yes'], time_out = 100),
                                transitions={'Yes' : 'THANKS', 'fail' : 'YES'})
 
-        smach.StateMachine.add('THANKS', Say.Say("Thank you"),
+        smach.StateMachine.add('THANKS', Say.Say("Thank you, I am going outside."),
                                transitions={'spoke' : 'EXIT', 'mute' : 'Done'})
 
         smach.StateMachine.add('EXIT', GoToLocation.GoToLocation('saida_1'),
@@ -110,7 +122,10 @@ def setup_sm():
                                transitions={'success':'EXIT_3','fail':'Done'})
 
         smach.StateMachine.add('EXIT_3', GoToLocation.GoToLocation('fora_casa'),
-                               transitions={'success':'Done','fail':'Done'})
+                               transitions={'success':'END','fail':'Done'})
+
+        smach.StateMachine.add('END', Say.Say("Lets do it again!"),
+                               transitions={'spoke' : 'Done', 'mute' : 'Done'})
 
 
     sis = smach_ros.IntrospectionServer('Judith_StateMachineServer', sm, '/SM_JUDITH')
@@ -122,5 +137,5 @@ def setup_sm():
     sis.stop()
 
 if __name__ == '__main__':
-    rospy.init_node('test_01_sm')
+    rospy.init_node('test_02_sm')
     setup_sm()
