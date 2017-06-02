@@ -8,10 +8,12 @@
                 tilt_controller
                 tilt2_controller
                 tilt3_controller
-                tilt4_controller"
+                tilt4_controller
+                tilt_head"
           output="screen"/>
                 <!-- tilt5_controller -->
                 <!-- tilt6_controller -->
+                <!-- pan_head -->
 	<!-- Define USB parameters and start the controller manager -->
     <node name="dynamixel_manager" pkg="dynamixel_controllers" type="controller_manager.py" required="true" output="screen">
         <rosparam>
