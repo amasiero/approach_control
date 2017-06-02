@@ -34,21 +34,21 @@ def setup_sm():
                                transitions={'spoke' : 'SET_INITIAL_POSITION', 'mute' : 'Done'})
 
         smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition(local='inicio'),
-                               transitions={'success':'GO_OBJECT','fail':'Done'})
+                               transitions={'success':'GO_ARMARIO','fail':'Done'})
         
-        smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('armario'),
+        smach.StateMachine.add('GO_ARMARIO', GoToLocation.GoToLocation('armario'),
                                transitions={'success':'WHERE_IS_BOTTLE','fail':'Done'})
 
         smach.StateMachine.add('WHERE_IS_BOTTLE', Say.Say("I let a bottle here."),
                                 transitions={'spoke' : 'HEAD', 'mute' : 'Done'})
 
-        smach.StateMachine.add('HEAD', GestureAction.GestureAction('head'),
+        smach.StateMachine.add('HEAD', GestureAction.GestureAction('head2'),
                                transitions={'success':'KITCHEN','fail':'Done'})
 
         smach.StateMachine.add('KITCHEN', Say.Say("Maybe in the kitchen?"),
                                 transitions={'spoke' : 'GO_OBJECT', 'mute' : 'Done'})
 
-        smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('entrada_cozinha_1'),
+        smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('entrada_cozinha'),
                                transitions={'success':'GO_OBJECT_2','fail':'Done'})
 
         smach.StateMachine.add('GO_OBJECT_2', GoToLocation.GoToLocation('entrada_cozinha_2'),
