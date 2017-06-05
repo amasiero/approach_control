@@ -6,10 +6,11 @@ import math
 from openni import *
 
 
+
 class GetDistance(smach.State):
 
     def __init__(self):
-        smach.State.__init__(self, outcomes=['success', 'fail'])
+        smach.State.__init__(self, outcomes=['safe', 'too_close', 'fail'])
         self.ctx = Context()
         self.ctx.init()
 
@@ -28,15 +29,18 @@ class GetDistance(smach.State):
         depth_map = self.depth.map
 
         center_x = depth_map.width / 2
-        center_y = depth_map.height / 2
+        y = depth_map.height - 1
 
-        distance_in_cm =  depth_map[center_x, center_y] / 10.0
+        distance_in_cm =  depth_map[center_x, y] / 10.0
 
-        real_distance = math.sqrt(math.pow(distance_in_cm, 2) - math.pow(135, 2))
+        real_distance = 0
 
-        print(real_distance)
+        if distance_in_cm > 135:
+            real_distance = math.sqrt(math.pow(distance_in_cm, 2) - math.pow(135, 2))
 
-        if distance_in_cm >= 0:
-            return 'success'
+        if real_distance >= 20:
+            return 'safe'
+        elif real_distance < 20:
+            return 'too_close'
         else:
             return 'fail'

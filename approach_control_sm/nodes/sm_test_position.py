@@ -21,7 +21,7 @@ def setup_sm():
         smach.StateMachine.add('HELLO', Say.Say("Hello"),
                                transitions={'spoke' : 'SET_INITIAL_POSITION', 'mute' : 'Done'})
 
-        smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition(local='test_entrada'),
+        smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition(local='armario'),
                                transitions={'success':'Done','fail':'Done'})
         
     sis = smach_ros.IntrospectionServer('Judith_StateMachineServer', sm, '/SM_JUDITH')

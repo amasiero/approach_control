@@ -11,6 +11,9 @@ from approach_control_people.skeleton import CheckDistance
 from approach_control_navigation import GoToLocation, SetInitialPosition
 from approach_control_manipulator import GestureAction
 from approach_control_robot_face import PublishFace
+from approach_control_people import GetDistance
+from approach_control_head import Tilt
+from approach_control_movement.walk import Walk
 
 def setup_sm():
 
@@ -39,7 +42,19 @@ def setup_sm():
         smach.StateMachine.add('GO_ARMARIO', GoToLocation.GoToLocation('armario'),
                                transitions={'success':'WHERE_IS_BOTTLE','fail':'Done'})
 
-        smach.StateMachine.add('WHERE_IS_BOTTLE', Say.Say("I let a bottle here."),
+        smach.StateMachine.add('DOWN', Tilt.Tilt('down'),
+                               transitions={'success' : 'CHECK_DISTANCE', 'fail' : 'Done'})
+
+        smach.StateMachine.add('GET_DISTANCE', GetDistance.GetDistance(),
+                               transitions={'safe' : 'WALK_IN', 'too_close' : 'STOP_IN', 'fail' : 'Done'})
+
+        smach.StateMachine.add('WALK_IN', Walk.Walk(linear=0.2),
+                                transitions={'walking': 'GET_DISTANCE', 'stopping' : 'WHERE_IS_BOTTLE'})
+
+        smach.StateMachine.add('STOP_IN', Walk.Walk(),
+                                transitions={'walking': 'GET_DISTANCE', 'stopping' : 'WHERE_IS_BOTTLE'})
+
+        smach.StateMachine.add('WHERE_IS_BOTTLE', Say.Say("I let, my bottle, here."),
                                 transitions={'spoke' : 'HEAD', 'mute' : 'Done'})
 
         smach.StateMachine.add('HEAD', GestureAction.GestureAction('head2'),
@@ -47,6 +62,18 @@ def setup_sm():
 
         smach.StateMachine.add('KITCHEN', Say.Say("Maybe in the kitchen?"),
                                 transitions={'spoke' : 'GO_OBJECT', 'mute' : 'Done'})
+
+        smach.StateMachine.add('GET_DISTANCE_2', GetDistance.GetDistance(),
+                               transitions={'safe' : 'WALK_OUT', 'too_close' : 'STOP_OUT', 'fail' : 'Done'})
+
+        smach.StateMachine.add('WALK_OUT', Walk.Walk(linear=-0.2),
+                                transitions={'walking': 'GET_DISTANCE_2', 'stopping' : 'FRONT'})
+
+        smach.StateMachine.add('STOP_OUT', Walk.Walk(),
+                                transitions={'walking': 'GET_DISTANCE_2', 'stopping' : 'FRONT'})
+
+        smach.StateMachine.add('FRONT', Tilt.Tilt('front'),
+                               transitions={'success' : 'GO_OBJECT', 'fail' : 'Done'})
 
         smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('entrada_cozinha'),
                                transitions={'success':'GO_OBJECT_2','fail':'Done'})
