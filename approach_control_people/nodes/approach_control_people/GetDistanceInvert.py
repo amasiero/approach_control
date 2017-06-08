@@ -7,10 +7,10 @@ from openni import *
 
 
 
-class GetDistance(smach.State):
+class GetDistanceInvert(smach.State):
 
     def __init__(self):
-        smach.State.__init__(self, outcomes=['safe', 'too_close', 'fail'])
+        smach.State.__init__(self, outcomes=['safe', 'too_far', 'fail'])
         self.ctx = Context()
         self.ctx.init()
 
@@ -34,7 +34,7 @@ class GetDistance(smach.State):
         distance_in_cm =  depth_map[center_x, y] / 10.0
 
         real_distance = 0
-        distance_stop_in = 90
+        distance_stop_in = 100
         distance_stop_out = 135
 
         if distance_in_cm > 135:
@@ -51,8 +51,8 @@ class GetDistance(smach.State):
         rospy.logwarn(distance_stop_out)
 
         if real_distance <= distance_stop_out and real_distance > distance_stop_in:
-            return 'safe'
+            return 'too_far'
         elif real_distance < distance_stop_in:
-            return 'too_close'
+            return 'safe'
         else:
             return 'fail'

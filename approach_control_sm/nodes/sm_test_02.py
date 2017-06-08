@@ -11,7 +11,7 @@ from approach_control_people.skeleton import CheckDistance
 from approach_control_navigation import GoToLocation, SetInitialPosition
 from approach_control_manipulator import GestureAction
 from approach_control_robot_face import PublishFace
-from approach_control_people import GetDistance
+from approach_control_people import GetDistance, GetDistanceInvert
 from approach_control_head import Tilt
 from approach_control_movement.walk import Walk
 
@@ -40,10 +40,10 @@ def setup_sm():
                                transitions={'success':'GO_ARMARIO','fail':'Done'})
         
         smach.StateMachine.add('GO_ARMARIO', GoToLocation.GoToLocation('armario'),
-                               transitions={'success':'WHERE_IS_BOTTLE','fail':'Done'})
+                               transitions={'success':'DOWN','fail':'Done'})
 
         smach.StateMachine.add('DOWN', Tilt.Tilt('down'),
-                               transitions={'success' : 'CHECK_DISTANCE', 'fail' : 'Done'})
+                               transitions={'success' : 'GET_DISTANCE', 'fail' : 'Done'})
 
         smach.StateMachine.add('GET_DISTANCE', GetDistance.GetDistance(),
                                transitions={'safe' : 'WALK_IN', 'too_close' : 'STOP_IN', 'fail' : 'Done'})
@@ -61,9 +61,9 @@ def setup_sm():
                                transitions={'success':'KITCHEN','fail':'Done'})
 
         smach.StateMachine.add('KITCHEN', Say.Say("Maybe in the kitchen?"),
-                                transitions={'spoke' : 'GO_OBJECT', 'mute' : 'Done'})
+                                transitions={'spoke' : 'GET_DISTANCE_2', 'mute' : 'Done'})
 
-        smach.StateMachine.add('GET_DISTANCE_2', GetDistance.GetDistance(),
+        smach.StateMachine.add('GET_DISTANCE_2', GetDistanceInvert.GetDistanceInvert(),
                                transitions={'safe' : 'WALK_OUT', 'too_close' : 'STOP_OUT', 'fail' : 'Done'})
 
         smach.StateMachine.add('WALK_OUT', Walk.Walk(linear=-0.2),
