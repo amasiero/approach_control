@@ -64,7 +64,7 @@ def setup_sm():
                                 transitions={'spoke' : 'GET_DISTANCE_2', 'mute' : 'Done'})
 
         smach.StateMachine.add('GET_DISTANCE_2', GetDistanceInvert.GetDistanceInvert(),
-                               transitions={'safe' : 'WALK_OUT', 'too_close' : 'STOP_OUT', 'fail' : 'Done'})
+                               transitions={'safe' : 'WALK_OUT', 'too_far' : 'STOP_OUT', 'fail' : 'Done'})
 
         smach.StateMachine.add('WALK_OUT', Walk.Walk(linear=-0.2),
                                 transitions={'walking': 'GET_DISTANCE_2', 'stopping' : 'FRONT'})
