@@ -39,7 +39,7 @@ class GetDistance(smach.State):
 
         if distance_in_cm > 135:
             real_distance = math.sqrt(math.pow(distance_in_cm, 2) - math.pow(135, 2))
-            distance_stop_in = 50
+            distance_stop_in = 28
             distance_stop_out = 90
         else:
             real_distance = distance_in_cm
