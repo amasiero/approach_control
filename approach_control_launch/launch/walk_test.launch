@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- <node name="execute_gesture" pkg="approach_control_manipulator" type="execute_gesture.py" /> -->
+    <node name="enable_motor" pkg="p2os_enablemotor" type="enable_motor" />
+    <node name="sm_test" pkg="approach_control_sm" type="sm_walk_robot.py" />
+</launch>

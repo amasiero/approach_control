@@ -16,13 +16,13 @@ def setup_sm():
 	with sm:
 
 		smach.StateMachine.add('WALK', Walk.Walk(0.2),
-								transitions={'walking' : 'CHECK_DISTANCE', 'stopping' : 'STOP'})
+								transitions={'walking' : 'WALK', 'stopping' : 'Done'})
 	
-		smach.StateMachine.add('CHECK_DISTANCE', Laser.Laser(),
-								transitions={'closerFront' : 'STOP', 'closerRight' : 'STOP', 'closerLeft' : 'STOP', 'far' : 'WALK'})
+		# smach.StateMachine.add('CHECK_DISTANCE', Laser.Laser(),
+		# 						transitions={'closerFront' : 'STOP', 'closerRight' : 'STOP', 'closerLeft' : 'STOP', 'far' : 'WALK'})
 
-		smach.StateMachine.add('STOP', Walk.Walk(),
-								transitions={'walking' : 'Done', 'stopping' : 'Done'})
+		# smach.StateMachine.add('STOP', Walk.Walk(),
+		# 						transitions={'walking' : 'Done', 'stopping' : 'Done'})
 
 	sis = smach_ros.IntrospectionServer('Judith_StateMachineServer', sm, '/SM_JUDITH')
 	sis.start()
