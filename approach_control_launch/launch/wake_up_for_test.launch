@@ -2,6 +2,7 @@
 <launch>
     <include file="$(find approach_control_launch)/launch/bring_up_robot.launch" />
     <include file="$(find approach_control_launch)/launch/start_arm_motors.launch" />
+    <!-- <include file="$(find p2os_launch)/launch/tf_base_link_to_laser.launch"/> -->
     <include file="$(find dragonfly_speech_recognition)/example_launch/example.launch" />
     <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
     <node args="$(find approach_control_config)/maps/new_home.yaml" name="map_server" output="screen" pkg="map_server" type="map_server"/>
