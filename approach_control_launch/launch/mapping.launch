@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <launch>
-	<node name="p2os_driver" output="screen" pkg="p2os_driver" respawn="true" type="p2os_driver">
+	<!-- <node name="p2os_driver" output="screen" pkg="p2os_driver" respawn="true" type="p2os_driver">
 		<param name="port" value="/dev/ttyUSB0"/>
 	</node>
 	<include file="$(find p2os_launch)/launch/tf_base_link_to_laser.launch"/>
-	<include file="$(find p2os_launch)/launch/hokuyo.launch"/>
+	<include file="$(find p2os_launch)/launch/hokuyo.launch"/> -->
+    <include file="$(find approach_control_launch)/launch/bring_up_robot.launch"/>
 	<include file="$(find p2os_launch)/launch/gmapping.launch"/>
 	<include file="$(find approach_control_launch)/launch/gamepad_teleop.launch"/>
     <!-- <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen"/> -->
