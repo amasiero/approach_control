@@ -16,7 +16,8 @@
     </node> -->
 
     <!-- configure the transform for hokuyo -->
-    <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.2175 0 0.1547 0 0 0 base_link laser 100" />
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.23 0 0.1547 0 0 0 base_link laser 100" />
+    <!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.2175 0 0.1547 0 0 0 base_link laser 100" /> -->
     <!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0 0 0.2125 0 0 0 base_link laser 100" /> -->
 
 	<!--<include file="$(find judith_launch)/launch/start_arm.launch" />-->

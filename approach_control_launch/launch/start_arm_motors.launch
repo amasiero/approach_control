@@ -9,7 +9,8 @@
                 tilt2_controller
                 tilt3_controller
                 tilt4_controller
-                tilt_head"
+                tilt_head
+                pan_head"
           output="screen"/>
                 <!-- tilt5_controller -->
                 <!-- tilt6_controller -->
