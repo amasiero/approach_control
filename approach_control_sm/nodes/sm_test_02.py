@@ -38,12 +38,15 @@ def setup_sm():
 
         smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition(local='jardim'),
                                transitions={'success':'GO_ARMARIO','fail':'Done'})
-        
+
         smach.StateMachine.add('GO_ARMARIO', GoToLocation.GoToLocation('armario'),
                                transitions={'success':'WHERE_IS_BOTTLE','fail':'Done'})
 
         smach.StateMachine.add('WHERE_IS_BOTTLE', Say.Say("I left my bottle here."),
-                                transitions={'spoke' : 'HALL', 'mute' : 'Done'})
+                                transitions={'spoke' : 'HEAD', 'mute' : 'Done'})
+
+        smach.StateMachine.add('HEAD', GestureAction.GestureAction('head2'),
+                               transitions={'success':'HALL','fail':'Done'})
 
         smach.StateMachine.add('HALL', Say.Say("Maybe did I let in the hall?"),
                                 transitions={'spoke' : 'TABLE', 'mute' : 'Done'})
@@ -53,7 +56,7 @@ def setup_sm():
 
         sm_con_1 = smach.Concurrence(outcomes=['success', 'fail'],
                                     default_outcome = 'fail',
-                                    outcome_map = {'success' : 
+                                    outcome_map = {'success' :
                                         {'DAMMED' : 'spoke',
                                           'ANGRY_FACE' : 'success'}})
         with sm_con_1:
@@ -61,7 +64,7 @@ def setup_sm():
           smach.Concurrence.add('ANGRY_FACE', PublishFace.PublishFace('angry'))
 
           smach.Concurrence.add('DAMMED', Say.Say("Dammed! It is not here too!"))
-        
+
         smach.StateMachine.add('CON_1', sm_con_1,
                                 transitions={'success':'SOFA_F', 'fail':'CON_1'})
 
@@ -72,19 +75,22 @@ def setup_sm():
                                transitions={'success':'HAPPY_FACE','fail':'Done'})
 
         smach.StateMachine.add('HAPPY_FACE', PublishFace.PublishFace('happy'),
-                               transitions={'success':'SOFA_C','fail':'Done'})        
+                               transitions={'success':'SOFA_C','fail':'Done'})
 
         smach.StateMachine.add('SOFA_C', GoToLocation.GoToLocation('sofa_perto'),
-                       transitions={'success':'CON_2','fail':'Done'})
+                       transitions={'success':'DOWN','fail':'Done'})
+
+        smach.StateMachine.add('DOWN', Tilt.Tilt('down'),
+                               transitions={'success' : 'CON_2', 'fail' : 'Done'})
 
 
         sm_con_2 = smach.Concurrence(outcomes=['success', 'fail'],
                                     default_outcome = 'fail',
-                                    outcome_map = {'success' : 
+                                    outcome_map = {'success' :
                                         {'HI' : 'spoke',
                                           'HELLO_GESTURE' : 'success'}})
         with sm_con_2:
-          
+
           smach.Concurrence.add('HELLO_GESTURE', GestureAction.GestureAction('long_hello'))
 
           smach.Concurrence.add('HI', Say.Say("Hi!"))
@@ -92,11 +98,14 @@ def setup_sm():
         smach.StateMachine.add('CON_2', sm_con_2,
                                 transitions={'success':'QUESTION', 'fail':'CON_2'})
 
-        smach.StateMachine.add('QUESTION', Say.Say("Could you please, help me find my salad?"),
+        smach.StateMachine.add('QUESTION', Say.Say("Could you please help me find my bottle?"),
                                transitions={'spoke' : 'YES', 'mute' : 'Done'})
 
         smach.StateMachine.add('YES', Recognizer.Recognizer(spec = ['Yes'], time_out = 100),
-                               transitions={'Yes' : 'THANKS', 'fail' : 'YES'})
+                               transitions={'Yes' : 'FRONT', 'fail' : 'YES'})
+
+        smach.StateMachine.add('FRONT', Tilt.Tilt('front'),
+                               transitions={'success' : 'THANKS', 'fail' : 'Done'})
 
         smach.StateMachine.add('THANKS', Say.Say("Thank you, I am going outside."),
                                transitions={'spoke' : 'EXIT', 'mute' : 'Done'})
