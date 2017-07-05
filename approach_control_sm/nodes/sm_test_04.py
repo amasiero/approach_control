@@ -40,13 +40,13 @@ def setup_sm():
                                transitions={'success':'GO_ARMARIO','fail':'Done'})
 
         smach.StateMachine.add('GO_ARMARIO', GoToLocation.GoToLocation('armario'),
-                               transitions={'success':'WHERE_IS_BOTTLE','fail':'Done'})
-
-        smach.StateMachine.add('WHERE_IS_BOTTLE', Say.Say("I left my bottle here."),
-                                transitions={'spoke' : 'HEAD', 'mute' : 'Done'})
+                               transitions={'success':'HEAD','fail':'Done'})
 
         smach.StateMachine.add('HEAD', GestureAction.GestureAction('head2'),
-                               transitions={'success':'HALL','fail':'Done'})
+                       transitions={'success':'WHERE_IS_BOTTLE','fail':'Done'})
+
+        smach.StateMachine.add('WHERE_IS_BOTTLE', Say.Say("I left my bottle here."),
+                                transitions={'spoke' : 'HALL', 'mute' : 'Done'})
 
         smach.StateMachine.add('HALL', Say.Say("Maybe did I let in the hall?"),
                                 transitions={'spoke' : 'TABLE', 'mute' : 'Done'})
@@ -75,11 +75,7 @@ def setup_sm():
                                transitions={'success':'HAPPY_FACE','fail':'Done'})
 
         smach.StateMachine.add('HAPPY_FACE', PublishFace.PublishFace('happy'),
-                               transitions={'success':'SOFA_C','fail':'Done'})
-
-        smach.StateMachine.add('SOFA_C', GoToLocation.GoToLocation('pessoa_perto'),
-                       transitions={'success':'CON_2','fail':'Done'})
-
+                               transitions={'success':'CON_2','fail':'Done'})
 
         sm_con_2 = smach.Concurrence(outcomes=['success', 'fail'],
                                     default_outcome = 'fail',
@@ -93,23 +89,31 @@ def setup_sm():
           smach.Concurrence.add('HI', Say.Say("Hi!"))
 
         smach.StateMachine.add('CON_2', sm_con_2,
-                                transitions={'success':'QUESTION', 'fail':'CON_2'})
+                                transitions={'success':'SOFA_C', 'fail':'CON_2'})
+
+        smach.StateMachine.add('SOFA_C', GoToLocation.GoToLocation('pessoa_perto'),
+                       transitions={'success':'QUESTION','fail':'Done'})
 
         smach.StateMachine.add('QUESTION', Say.Say("Could you please help me find my bottle?"),
                                transitions={'spoke' : 'YES', 'mute' : 'Done'})
 
         smach.StateMachine.add('YES', Recognizer.Recognizer(spec = ['Yes'], time_out = 100),
-                               transitions={'Yes' : 'THANKS', 'fail' : 'YES'})
+                               transitions={'Yes' : 'FOLLOW', 'fail' : 'YES'})
 
-        smach.StateMachine.add('THANKS', Say.Say("Thank you, I am going outside."),
+        smach.StateMachine.add('FOLLOW', Say.Say("Please follow me"),
                                transitions={'spoke' : 'EXIT', 'mute' : 'Done'})
 
         smach.StateMachine.add('EXIT', GoToLocation.GoToLocation('saida'),
-                               transitions={'success':'END','fail':'Done'})
+                               transitions={'success':'THANKS','fail':'Done'})
+
+        smach.StateMachine.add('THANKS', Say.Say("Thanks for your cooperation"),
+                               transitions={'spoke' : 'END', 'mute' : 'Done'})
 
         smach.StateMachine.add('END', Say.Say("Lets do it again!"),
-                               transitions={'spoke' : 'Done', 'mute' : 'Done'})
+                               transitions={'spoke' : 'BACK_HOME', 'mute' : 'Done'})
 
+        smach.StateMachine.add('BACK_HOME', GoToLocation.GoToLocation('jardim'),
+                               transitions={'success':'Done','fail':'Done'})
 
     sis = smach_ros.IntrospectionServer('Judith_StateMachineServer', sm, '/SM_JUDITH')
     sis.start()
