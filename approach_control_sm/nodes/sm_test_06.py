@@ -60,11 +60,14 @@ def setup_sm():
         smach.StateMachine.add('PERSON_C', GoToLocation.GoToLocation('pessoa_perto'),
                                transitions={'success':'POINT','fail':'Done'})
 
+        smach.StateMachine.add('POINT', GestureAction.GestureAction('point'),
+                       transitions={'success':'HALL','fail':'Done'})
+
         smach.StateMachine.add('HALL', Say.Say("Did you take my bootle?"),
                                 transitions={'spoke' : 'NO', 'mute' : 'Done'})
 
         smach.StateMachine.add('NO', Recognizer.Recognizer(spec = ['No'], time_out = 100),
-                               transitions={'No' : 'CHECK_HALL', 'fail' : 'YES'})
+                               transitions={'No' : 'CHECK_HALL', 'fail' : 'NO'})
 
         smach.StateMachine.add('CHECK_HALL', Say.Say("I will see on the hall"),
                                 transitions={'spoke' : 'TABLE', 'mute' : 'Done'})
