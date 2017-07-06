@@ -113,7 +113,7 @@ def setup_sm():
                                transitions={'success':'THANKS','fail':'Done'})
 
         smach.StateMachine.add('THANKS', Say.Say("Thanks for your cooperation"),
-                               transitions={'spoke' : 'END', 'mute' : 'Done'})
+                               transitions={'spoke' : 'BACK_HOME', 'mute' : 'Done'})
 
         smach.StateMachine.add('BACK_HOME', GoToLocation.GoToLocation('jardim'),
                                transitions={'success':'Done','fail':'Done'})
