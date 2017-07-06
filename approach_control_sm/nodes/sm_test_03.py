@@ -61,7 +61,7 @@ def setup_sm():
                                           'ANGRY_FACE' : 'success'}})
         with sm_con_1:
 
-          smach.Concurrence.add('ANGRY_FACE', PublishFace.PublishFace('angry'))
+          smach.Concurrence.add('ANGRY_FACE', PublishFace.PublishFace('angry_red'))
 
           smach.Concurrence.add('DAMMED', Say.Say("Dammed! It is not here too!"))
 

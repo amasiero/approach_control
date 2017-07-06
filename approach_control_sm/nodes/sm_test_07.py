@@ -54,7 +54,7 @@ def setup_sm():
         smach.StateMachine.add('WHERE_IS_BOTTLE', Say.Say("I left my bottle here."),
                                 transitions={'spoke' : 'ANGRY_FACE', 'mute' : 'Done'})
 
-        smach.StateMachine.add('ANGRY_FACE', PublishFace.PublishFace('angry'),
+        smach.StateMachine.add('ANGRY_FACE', PublishFace.PublishFace('angry_red'),
                                transitions={'success':'PERSON_C','fail':'Done'})
 
         smach.StateMachine.add('PERSON_C', GoToLocation.GoToLocation('sofa_perto'),
@@ -92,7 +92,7 @@ def setup_sm():
         smach.StateMachine.add('SOFA_F', GoToLocation.GoToLocation('sofa_longe'),
                                transitions={'success':'ANGRY_FACE_2','fail':'Done'})
 
-        smach.StateMachine.add('ANGRY_FACE_2', PublishFace.PublishFace('angry'),
+        smach.StateMachine.add('ANGRY_FACE_2', PublishFace.PublishFace('angry_red'),
                                transitions={'success':'CON_2','fail':'Done'})
 
         sm_con_2 = smach.Concurrence(outcomes=['success', 'fail'],

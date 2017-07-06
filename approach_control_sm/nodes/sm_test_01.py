@@ -35,7 +35,7 @@ def setup_sm():
 
         smach.StateMachine.add('SET_INITIAL_POSITION', SetInitialPosition.SetInitialPosition(local='inicio'),
                                transitions={'success':'GO_OBJECT','fail':'Done'})
-        
+
         smach.StateMachine.add('GO_OBJECT', GoToLocation.GoToLocation('entrada_cozinha'),
                                transitions={'success':'GO_OBJECT_2','fail':'Done'})
 
@@ -50,15 +50,15 @@ def setup_sm():
 
         sm_con_1 = smach.Concurrence(outcomes=['success', 'fail'],
                                     default_outcome = 'fail',
-                                    outcome_map = {'success' : 
+                                    outcome_map = {'success' :
                                         {'DAMMED' : 'spoke',
                                           'ANGRY_FACE' : 'success'}})
         with sm_con_1:
 
-          smach.Concurrence.add('ANGRY_FACE', PublishFace.PublishFace('angry'))
+          smach.Concurrence.add('ANGRY_FACE', PublishFace.PublishFace('angry_red'))
 
           smach.Concurrence.add('DAMMED', Say.Say("Dammed!, where is, my salad."))
-        
+
         smach.StateMachine.add('CON_1', sm_con_1,
                                 transitions={'success':'GO_FIND_PEOPLE', 'fail':'CON_1'})
 
@@ -75,18 +75,18 @@ def setup_sm():
                                transitions={'success':'HAPPY_FACE','fail':'Done'})
 
         smach.StateMachine.add('HAPPY_FACE', PublishFace.PublishFace('happy'),
-                               transitions={'success':'GO_INTIMA','fail':'Done'})        
+                               transitions={'success':'GO_INTIMA','fail':'Done'})
 
         smach.StateMachine.add('GO_INTIMA', GoToLocation.GoToLocation('sofa_p'),
                                transitions={'success':'CON_2','fail':'Done'})
 
         sm_con_2 = smach.Concurrence(outcomes=['success', 'fail'],
                                     default_outcome = 'fail',
-                                    outcome_map = {'success' : 
+                                    outcome_map = {'success' :
                                         {'HI' : 'spoke',
                                           'HELLO_GESTURE' : 'success'}})
         with sm_con_2:
-          
+
           smach.Concurrence.add('HELLO_GESTURE', GestureAction.GestureAction('short'))
 
           smach.Concurrence.add('HI', Say.Say("Hi!"))
