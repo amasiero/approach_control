@@ -7,7 +7,7 @@ from openni import *
 
 class GetSkeleton(smach.State):
     def __init__(self):
-        smach.State.__init__(self, outcomes=['far', 'close', 'fail'])
+        smach.State.__init__(self, outcomes=['success'])
         self.pose_to_use = ''
 
         self.ctx = Context()
