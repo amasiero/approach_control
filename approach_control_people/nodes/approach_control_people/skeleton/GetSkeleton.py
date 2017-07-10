@@ -59,3 +59,5 @@ class GetSkeleton(smach.State):
             if self.skel_cap.is_tracking(id):
                 head = self.skel_cap.get_joint_position(id, SKEL_HEAD)
                 print "  {}: head at ({loc[0]}, {loc[1]}, {loc[2]}) [{conf}]" .format(id, loc=head.point, conf=head.confidence)
+
+        return 'success'
