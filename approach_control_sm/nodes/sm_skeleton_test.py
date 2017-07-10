@@ -18,7 +18,11 @@ def setup_sm():
         smach.StateMachine.add('HELLO', Say.Say("Hello"),
                                transitions={'spoke' : 'SKELETON', 'mute' : 'Done'})
 
+<<<<<<< HEAD
         smach.StateMachine.add('SKELETON', GetSkeleton.GetSkeleton(),
+=======
+        smach.StateMachine.add('SKELETON', GestureAction.GestureAction('short'),
+>>>>>>> 18e79008792b4c6af3b2a2f34c8e0cc0f824e13a
                                transitions={'success':'SKELETON'})
 
     sis = smach_ros.IntrospectionServer('Judith_StateMachineServer', sm, '/SM_JUDITH')
