@@ -14,7 +14,7 @@ class GetSkeleton(smach.State):
         self.ctx.init()
 
         self.user = UserGenerator()
-        self.user.create(ctx)
+        self.user.create(self.ctx)
 
         self.skel_cap = self.user.skeleton_cap
         self.pose_cap = self.user.pose_detection_cap
