@@ -66,7 +66,7 @@ def setup_sm():
         smach.StateMachine.add('POINT', GestureAction.GestureAction('point'),
                        transitions={'success':'HALL','fail':'Done'})
 
-        smach.StateMachine.add('HALL', Say.Say("Did you take my bootle?"),
+        smach.StateMachine.add('HALL', Say.Say("Did you take my bottle?"),
                                 transitions={'spoke' : 'NO', 'mute' : 'Done'})
 
         smach.StateMachine.add('NO', Recognizer.Recognizer(spec = ['No'], time_out = 100),
@@ -112,7 +112,7 @@ def setup_sm():
         smach.StateMachine.add('CON_2', sm_con_2,
                                 transitions={'success':'QUESTION', 'fail':'CON_2'})
 
-        smach.StateMachine.add('QUESTION', Say.Say("Please, help me find my bottle!"),
+        smach.StateMachine.add('QUESTION', Say.Say("Please, help me find my bottle"),
                                transitions={'spoke' : 'FOLLOW', 'mute' : 'Done'})
 
         smach.StateMachine.add('FOLLOW', Say.Say("Follow me"),
