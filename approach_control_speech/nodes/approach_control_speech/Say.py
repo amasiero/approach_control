@@ -11,7 +11,7 @@ class Say(smach.State):
 	def __init__(self, text_to_say = ''):
 		smach.State.__init__(self, outcomes=['spoke', 'mute'])
 		self.text_to_say = text_to_say
-		self.say_pub = rospy.Publisher('/speech', String, queue_size=5)
+		self.say_pub = rospy.Publisher('/speech', String, queue_size=20)
 
 		rate = rospy.Rate(5)
 
